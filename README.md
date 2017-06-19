@@ -31,6 +31,8 @@ The Prism Conductor server runs scenario collections.
 
 The Prism Multi server runs prism instances.
 
+NOTE that this component must be setup with a wildcard subdomain, for example http://*.prism-proxy-dev.io. Each prism instance that is created gets a unique host, for example http://service1-mock.prism-proxy-dev.io. This is preferrable to storing the instance id in a path (http://prism-proxy-dev.io/service-mock) because it means that you don't need to change your API code - all you need to do is change your host variable.
+
 # Installation
 
 While installation will of course depend on your environment, there are some basic steps to follow.
