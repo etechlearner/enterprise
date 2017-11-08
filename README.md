@@ -2,18 +2,18 @@
 
 Stoplight currently requires Ubuntu 16.04 LTS as the base Linux system for all on-premise installations. A minimum of one server is required to run the Stoplight application, however, for a production installation, we recommend at least four servers (excluding monitoring and backup servers). The system specifications for each server can be found below under each component.
 
-For a Docker-based installations, the only requirements are:
+For the recommended Docker-based installation path, the only application requirements are:
 
 - [Nginx](http://nginx.org/) v1.10.3
 - [Docker CE](https://www.docker.com/) v17.00
 
-If Docker is not allowed within your operating environment, the requirements are:
+If Docker is not allowed within your operating environment, the application requirements are:
 
 - [Nginx](http://nginx.org/) v1.10.3
 - [NodeJS](https://nodejs.org/) v8.9.1
 - [Gitlab CE](https://about.gitlab.com/) v10.0.3
-- [PostgreSQL](https://www.postgresql.org/) v9.6 (included with Gitlab)
-- [Redis](https://redis.io/) v2.8
+- [PostgreSQL](https://www.postgresql.org/) v9.6 (optionally included with Gitlab)
+- [Redis](https://redis.io/) v2.8 (optionally included with Gitlab)
 
 For automation and configuration purposes, Ansible v2.2 is also recommended. For monitoring purposes, Stoplight recommends the following applications:
 
