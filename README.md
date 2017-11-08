@@ -1,8 +1,13 @@
 # System Requirements
 
-Stoplight currently requires Ubuntu 16.04 LTS as the base Linux system for all on-premise installations. A minimum of one server is required to run the Stoplight application, however for a production installation we recommend at least four servers. The system specifications for each server can be found below under each component.
+Stoplight currently requires Ubuntu 16.04 LTS as the base Linux system for all on-premise installations. A minimum of one server is required to run the Stoplight application, however, for a production installation, we recommend at least four servers. The system specifications for each server can be found below under each component.
 
-For a Docker-based installation, the only requirement is Docker CE v17.00. If Docker is not allowed within your operating environment, the requirements are:
+For a Docker-based installations, the only requirements are:
+
+- Nginx v1.10.3
+- Docker CE v17.00
+
+If Docker is not allowed within your operating environment, the requirements are:
 
 - Nginx v1.10.3
 - Node v8.9.1
@@ -10,12 +15,12 @@ For a Docker-based installation, the only requirement is Docker CE v17.00. If Do
 - Gitlab CE v10.0.3
 - Redis v2.8
 
-For automation and configuration purposes, Ansible v2.2 is also recommended. For monitoring, Stoplight recommends:
+For automation and configuration purposes, Ansible v2.2 is also recommended. For monitoring purposes, Stoplight recommends the following applications:
 
-- InfluxDB v1.3
-- Kapacitor v1.3
-- Telegraf v1.4
-- Mtail v3.0
+- InfluxDB v1.3 for metrics storage and aggregation
+- Kapacitor v1.3 for alerting and metrics processing
+- Telegraf v1.4 for metrics collection
+- Mtail v3.0 for whitebox monitoring of application logs
 
 ## Components
 
