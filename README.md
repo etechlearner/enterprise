@@ -4,6 +4,7 @@ Stoplight currently requires Ubuntu 16.04 as the base Linux system for all on-pr
 
 For a Docker-based installation, the only requirement is Docker v17.00.0-ce. If Docker is not allowed within your environment, the requirements are:
 
+- Ansible v2.2.3
 - Node v8.9.1
 - PostgreSQL v9.6
 - Gitlab CE v10.0.3
