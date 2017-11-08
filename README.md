@@ -4,23 +4,23 @@ Stoplight currently requires Ubuntu 16.04 LTS as the base Linux system for all o
 
 For a Docker-based installations, the only requirements are:
 
-- Nginx v1.10.3
-- Docker CE v17.00
+- [Nginx](http://nginx.org/) v1.10.3
+- [Docker CE](https://www.docker.com/) v17.00
 
 If Docker is not allowed within your operating environment, the requirements are:
 
-- Nginx v1.10.3
-- Node v8.9.1
-- PostgreSQL v9.6
-- Gitlab CE v10.0.3
-- Redis v2.8
+- [Nginx](http://nginx.org/) v1.10.3
+- [NodeJS](https://nodejs.org/) v8.9.1
+- [Gitlab CE](https://about.gitlab.com/) v10.0.3
+- [PostgreSQL](https://www.postgresql.org/) v9.6 (included with Gitlab)
+- [Redis](https://redis.io/) v2.8
 
 For automation and configuration purposes, Ansible v2.2 is also recommended. For monitoring purposes, Stoplight recommends the following applications:
 
-- InfluxDB v1.3 for metrics storage and aggregation
-- Kapacitor v1.3 for alerting and metrics processing
-- Telegraf v1.4 for metrics collection
-- Mtail v3.0 for whitebox monitoring of application logs
+- [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) v1.3 for metrics storage and aggregation
+- [Kapacitor](https://www.influxdata.com/time-series-platform/kapacitor/) v1.3 for alerting and metrics processing
+- [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) v1.4 for metrics collection
+- [Mtail](https://github.com/google/mtail) v3.0 for whitebox monitoring of application logs
 
 ## Components
 
