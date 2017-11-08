@@ -1,6 +1,6 @@
 # System Requirements
 
-Stoplight currently requires Ubuntu 16.04 LTS as the base Linux system for all on-premise installations. A minimum of one server is required to run the Stoplight application, however, for a production installation, we recommend at least four servers. The system specifications for each server can be found below under each component.
+Stoplight currently requires Ubuntu 16.04 LTS as the base Linux system for all on-premise installations. A minimum of one server is required to run the Stoplight application, however, for a production installation, we recommend at least four servers (excluding monitoring and backup servers). The system specifications for each server can be found below under each component.
 
 For a Docker-based installations, the only requirements are:
 
@@ -34,7 +34,7 @@ The app server serves up the Stoplight UI. This is the primary point of ingress 
 
 #### System Specifications
 
-For app servers, we recommend the following system specifications:
+For app servers, we recommend a minimum of the following system specifications:
 
 - 2 CPUs
 - 2GB Memory
@@ -56,7 +56,7 @@ The API server is what the App server (described above) connects to to fetch and
 
 #### System Specifications
 
-For API servers, we recommend co-locating with Gitlab and using the following system specifications:
+For API servers, we recommend co-locating with Gitlab and using a minimum of the following system specifications:
 
 - 4 CPUs
 - 8GB Memory
@@ -78,7 +78,7 @@ Please note that Prism must be setup with a wildcard subdomain (CNAME DNS record
 
 #### System Specifications
 
-For Prism servers, we recommend the following system specifications:
+For Prism servers, we recommend a minimum of the following system specifications:
 
 - 2 CPUs
 - 4GB Memory
@@ -97,7 +97,7 @@ The Exporter server dereferences OAS and Swagger files to ensure all referenced 
 
 #### System Specifications
 
-For Exporter servers, we recommend the following system specifications:
+For Exporter servers, we recommend a minimum of the following system specifications:
 
 - 2 CPUs
 - 2GB Memory
@@ -122,10 +122,11 @@ Packaged within the Gitlab CE is an installation of PostgreSQL v9.6 and Redis v2
 
 #### System Specifications
 
-For Gitlab servers, we recommend co-locating with the API and using the following system specifications:
+For Gitlab servers, we recommend co-locating with the API and using a minimum of the following system specifications:
 
 - 4 CPUs
 - 8GB Memory
+- SSD-backed redundant storage
 
 #### Networking
 
