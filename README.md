@@ -1,6 +1,6 @@
-# System Requirements
+## System Requirements
 
-Stoplight currently requires Ubuntu 16.04 LTS as the base Linux system for all on-premise installations. A minimum of one server is required to run the Stoplight application, however, for a production installation, we recommend at least four servers (excluding monitoring and backup servers). The system specifications for each server can be found below under each component.
+Stoplight currently requires Ubuntu 16.04 LTS or CentOS 7 as the base Linux system for all on-premise installations. A minimum of one server is required to run the Stoplight application, however, for a production installation, we recommend at least four servers (excluding monitoring and backup servers). The system specifications for each server can be found below under each component.
 
 For the recommended Docker-based installation path, the only application requirements are:
 
@@ -21,6 +21,8 @@ For automation and configuration purposes, Ansible v2.2 is also recommended. For
 - [Kapacitor](https://www.influxdata.com/time-series-platform/kapacitor/) v1.3 for alerting and metrics processing
 - [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) v1.4 for metrics collection
 - [Mtail](https://github.com/google/mtail) v3.0 for whitebox monitoring of application logs
+
+Please note that the above recommendations are entirely optional if your organization already has a monitoring and alerting solution in place.
 
 ## Components
 
@@ -131,15 +133,3 @@ For Gitlab servers, we recommend co-locating with the API and using a minimum of
 #### Networking
 
 The Gitlab service has no outgoing network dependencies unless the Redis or PostgreSQL sub-components are broken out separately.
-
-## Installation
-
-While installation will of course depend on your environment, there are some basic steps to follow.
-
-1. Provision an Ubuntu or Centos system.
-2. Install Node v8.
-3. Install and start a MongoDB 3.4 server if it will be run on this machine.
-4. Clone or copy this repository onto the machine.
-5. Update the variables in the .env files. Make sure to replace {PUBLIC_SYSTEM_IP} with your system's publicly accessible IP address (even if only accessible within your private network).
-6. In each component folder, run the start.sh script to start the server.
-7. Visit http://{PUBLIC_SYSTEM_IP}:3000 (or whichever port you chose in the app.env file) to view your enterprise stoplight instance.
