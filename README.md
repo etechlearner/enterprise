@@ -15,7 +15,7 @@ If Docker is not allowed within your operating environment, the application requ
 - [PostgreSQL](https://www.postgresql.org/) v9.6 (optionally included with Gitlab)
 - [Redis](https://redis.io/) v2.8 (optionally included with Gitlab)
 
-For automation and configuration purposes, Ansible v2.2 is also recommended. For monitoring purposes, Stoplight recommends the following applications:
+For automation and configuration purposes, [Ansible](https://www.ansible.com/) v2.2 is also recommended. For monitoring purposes, Stoplight recommends the following applications:
 
 - [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) v1.3 for metrics storage and aggregation
 - [Kapacitor](https://www.influxdata.com/time-series-platform/kapacitor/) v1.3 for alerting and metrics processing
