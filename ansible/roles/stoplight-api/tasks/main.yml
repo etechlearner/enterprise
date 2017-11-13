@@ -1,0 +1,73 @@
+---
+
+- set_fact:
+    sl_api_docker_shared_vars:
+      NODE_ENV: "production"
+      PORT: 3030
+      PUBLIC_PATH: "{{ sl_api_public_path }}"
+
+      SIGN_SECRET: "{{ sl_api_sign_secret }}"
+      GITLAB_ADMIN_TOKEN: "{{ sl_api_gitlab_admin_token }}"
+      POSTGRES_URL: "{{ sl_api_postgres_url }}"
+
+      SL_COOKIE_DOMAIN: "{{ sl_api_app_url.split('.')[-2:]|join('.') }}"
+      SL_APP_HOST: "{{ sl_api_app_url }}"
+      SL_API_HOST: "{{ sl_api_url }}"
+      SL_EXPORTER_HOST: "{{ sl_api_exporter_host }}"
+      SL_GITLAB_HOST: "{{ sl_api_gitlab_url }}"
+
+      BUILD_ID: "{{ sl_api_version|default('latest', true) }}"
+
+- name: run first api container
+  docker_container:
+    name: stoplight-api-1
+    hostname: "{{ sl_api_hostname }}-1"
+    image: quay.io/stoplight/api:{{ sl_api_version|default('latest', true) }}
+    links:
+      - postgres
+      - gitlab-1
+    ports:
+      - 3030:3030
+    env: "{{ sl_api_docker_shared_vars }}"
+    state: started
+    cleanup: yes
+    restart: yes
+    restart_policy: unless-stopped
+  register: sl_api_first_container
+
+- name: sleep for 60 seconds
+  pause:
+    seconds: 60
+  delegate_to: localhost
+  become: no
+  when: sl_api_first_container.changed
+
+- name: run health check on first container
+  command: curl localhost:3030/health
+
+- name: run second api container
+  docker_container:
+    name: stoplight-api-2
+    hostname: "{{ sl_api_hostname }}-2"
+    image: quay.io/stoplight/api:{{ sl_api_version|default('latest', true) }}
+    links:
+      - postgres
+      - gitlab-1
+    ports:
+      - 3031:3030
+    env: "{{ sl_api_docker_shared_vars }}"
+    state: started
+    cleanup: yes
+    restart: yes
+    restart_policy: unless-stopped
+  register: sl_api_second_container
+
+- name: sleep for 60 seconds
+  pause:
+    seconds: 60
+  delegate_to: localhost
+  become: no
+  when: sl_api_second_container.changed
+
+- name: run health check on second container
+  command: curl localhost:3031/health

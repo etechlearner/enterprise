@@ -1,0 +1,44 @@
+---
+
+- hosts: all
+  become: yes
+  vars:
+    app_environment: vagrant
+    docker_registry: quay.io
+    global_ssl_enabled: no
+    sl_app_hostname: app.localdomain
+    sl_api_hostname: api.localdomain
+    sl_exporter_hostname: exporter.localdomain
+    prism_hostname: prism.localdomain
+    gitlab_hostname: gitlab.localdomain
+    postgresql_hostname: postgres.localdomain
+    gitlab_display_hostname: localhost
+    postgresql_user: stoplight
+    postgresql_database: stoplight
+  pre_tasks:
+    - lineinfile:
+        name: /etc/hosts
+        line: "{{ {{ item }} {{ item }}.localdomain"
+      with_items:
+        - "gitlab"
+        - "app"
+        - "api"
+        - "exporter"
+        - "prism"
+        - "postgres"
+  roles:
+    - role: docker
+    - role: nginx
+      nginx_deploy_ssl: no
+      nginx_confs_to_set:
+        - "http/gitlab"
+        - "http/stoplight-api"
+        - "http/stoplight-app"
+        - "http/stoplight-exporter"
+        - "http/prism"
+    - role: postgresql
+    - role: gitlab
+    - role: stoplight-api
+    - role: stoplight-app
+    - role: prism
+    - role: stoplight-exporter

@@ -1,0 +1,43 @@
+---
+
+- set_fact:
+    sl_exporter_docker_shared_vars:
+      NODE_ENV: production
+      BUILD_ID: "{{ sl_exporter_version|default('latest', true) }}"
+      PORT: 3031
+
+      SL_APP_HOST: "{{ sl_exporter_app_url }}"
+      SL_API_HOST: "{{ sl_exporter_api_url }}"
+      SL_EXPORTER_HOST: "{{ sl_exporter_url }}"
+
+- name: run first exporter container
+  docker_container:
+    name: stoplight-exporter-1
+    hostname: "{{ sl_exporter_hostname }}-1"
+    image: quay.io/stoplight/exporter:{{ sl_exporter_version|default('latest', true) }}
+    ports:
+      - 3231:3031
+    env: "{{ sl_exporter_docker_shared_vars }}"
+    state: started
+    cleanup: yes
+    restart: yes
+    restart_policy: unless-stopped
+
+- name: sleep for 10 seconds
+  pause:
+    seconds: 10
+  delegate_to: localhost
+  become: no
+
+- name: run second exporter container
+  docker_container:
+    name: stoplight-exporter-2
+    hostname: "{{ sl_exporter_hostname }}-2"
+    image: quay.io/stoplight/exporter:{{ sl_exporter_version|default('latest', true) }}
+    ports:
+      - 3232:3031
+    env: "{{ sl_exporter_docker_shared_vars }}"
+    state: started
+    cleanup: yes
+    restart: yes
+    restart_policy: unless-stopped

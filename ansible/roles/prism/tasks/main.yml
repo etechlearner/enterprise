@@ -1,0 +1,48 @@
+---
+
+- set_fact:
+    prism_common_vars:
+      PORT: 4051
+      BUILD_ID: "{{ prism_version|default('latest', true) }}"
+
+      SL_API_HOST: "{{ prism_sl_api_url }}"
+      SL_HOST: "{{ prism_ref_url }}"
+      SL_EXPORTER_HOST: "{{ prism_export_host }}"
+
+      MAX_QUEUE_SIZE: "{{ prism_max_queue_size }}"
+      MAX_RUNTIME_POOL_SIZE: "{{ prism_max_runtime_pool_size }}"
+      MAX_WORKERS: "{{ prism_max_workers }}"
+
+      PRISM_LOG_LEVEL: ERROR
+
+- name: run first prism container
+  docker_container:
+    name: prism-1
+    hostname: "{{ prism_hostname }}-1"
+    image: quay.io/stoplight/prism-multi:{{ prism_version|default('latest', true) }}
+    ports:
+      - 4051:4051
+    env: "{{ prism_common_vars }}"
+    state: started
+    cleanup: yes
+    restart_policy: unless-stopped
+  register: prism_first_container
+
+- name: sleep for 45 seconds
+  pause:
+    seconds: 45
+  delegate_to: localhost
+  become: no
+  when: prism_first_container.changed
+
+- name: run second container
+  docker_container:
+    name: prism-2
+    hostname: "{{ prism_hostname }}-2"
+    image: quay.io/stoplight/prism-multi:{{ prism_version|default('latest', true) }}
+    ports:
+      - 4052:4051
+    env: "{{ prism_common_vars }}"
+    state: started
+    cleanup: yes
+    restart_policy: unless-stopped

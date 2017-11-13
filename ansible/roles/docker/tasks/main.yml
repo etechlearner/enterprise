@@ -1,0 +1,109 @@
+---
+
+- name: install docker dependencies [debian/ubuntu]
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+    - python-pip
+  when: ansible_os_family == "Debian"
+  tags:
+    - setup
+
+- name: install epel repo [centos/rhel]
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags:
+    - setup
+
+- name: install docker dependencies [centos/rhel]
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - yum-utils
+    - curl
+    - device-mapper-persistent-data
+    - lvm2
+    - python-pip
+  when: ansible_os_family == "RedHat"
+  tags:
+    - setup
+
+- name: install python docker dependencies
+  pip:
+    name: "{{ item }}"
+    extra_args: -U
+  with_items:
+    - docker-py
+
+- name: add docker gpg signing key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+  when: ansible_os_family == "Debian"
+  tags:
+    - setup
+
+- name: add docker repository [debian/ubuntu]
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+  when: ansible_os_family == "Debian"
+  tags:
+    - setup
+
+- name: add docker repository [redhat/centos]
+  command: curl -sL -o /etc/yum.repos.d/docker.repo https://download.docker.com/linux/centos/docker-ce.repo
+  args:
+    creates: /etc/yum.repos.d/docker.repo
+  when: ansible_os_family == "RedHat"
+  tags:
+    - setup
+
+- name: install docker
+  apt:
+    name: docker-ce
+    state: present
+  when: ansible_os_family == "Debian"
+  tags:
+    - setup
+
+- name: install docker
+  yum:
+    name: docker-ce
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags:
+    - setup
+
+- name: start docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  tags:
+    - setup
+
+- name: login to docker repository
+  command: docker login -u="{{ docker_login }}" -p="{{ docker_password }}" {{ docker_registry }}
+  when:
+    - docker_registry is defined and docker_registry != ""
+    - docker_login is defined and docker_login != ""
+    - docker_password is defined and docker_password != ""
+
+- name: start any specified containers
+  docker_container:
+    name: "{{ item.name }}"
+    image: "{{ item.image }}"
+    ports: "{{ item.ports }}"
+    env: "{{ item.env }}"
+    state: started
+  with_items: "{{ docker_containers }}"
+  when: docker_containers is defined and docker_containers != None
+  tags:
+    - configure

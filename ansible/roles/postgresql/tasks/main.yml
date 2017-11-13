@@ -1,0 +1,27 @@
+---
+
+- name: create postgres directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ postgresql_data_dir }}"
+
+- name: run postgres container
+  docker_container:
+    name: postgres
+    image: postgres:{{ postgresql_version|default('latest', true) }}
+    hostname: "{{ postgresql_hostname }}"
+    user: root
+    env:
+      POSTGRES_USER: "{{ postgresql_user }}"
+      POSTGRES_DB: "{{ postgresql_database }}"
+      POSTGRES_PASSWORD: "{{ postgresql_password }}"
+    volumes:
+      - "{{ postgresql_data_dir }}:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+    state: started
+    cleanup: yes
+    restart_policy: unless-stopped

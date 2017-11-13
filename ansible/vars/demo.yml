@@ -1,0 +1,61 @@
+---
+
+# Specifier to use to label this environment (production, staging, etc)
+app_environment: demo
+# Whether SSL should be used when connecting to instances (requires setting keys below)
+global_ssl_enabled: no
+
+##### Versions
+core_version: latest
+sl_app_version: "{{ core_version }}"
+sl_api_version: "{{ core_version }}"
+sl_exporter_version: "{{ core_version }}"
+prism_version: latest
+gitlab_version: latest
+
+##### Hostnames
+sl_app_hostname: stoplight.example.com
+sl_api_hostname: stoplight-api.example.com
+sl_exporter_hostname: stoplight-exporter.example.com
+prism_hostname: stoplight-prism.example.com
+postgresql_hostname: stoplight-postgresql.example.com
+gitlab_hostname: stoplight-gitlab.example.com
+
+##### Data
+# Where to store git and other required data (should be on redundant storage)
+gitlab_data_dir: /data/gitlab-data
+# Where to store relational data (should be on redundant storage)
+postgresql_data_dir: /data/pgdata
+
+# Connection details for connecting to postgres
+postgresql_user: stoplight
+postgresql_database: stoplight
+postgresql_password: supersecretpassword
+
+####################
+# Extra/optional Variables
+####################
+
+# Dual-hostname settings allow users to clone repositories without
+# accessing the backend Gitlab instance. Set these values if you don't
+# want your end-users to be able to reach Gitlab.
+gitlab_dual_hostname: stoplight-git.example.com
+gitlab_dual_cert_path: /etc/ssl/myssl.cert
+gitlab_dual_key_path:  /etc/ssl/myssl.key
+
+# Mail/SMTP settings allow for email notifications to Stoplight
+# Enterprise end-users
+gitlab_smtp_enable: "false" # set to "true" (quotes included) to enable
+gitlab_smtp_user_name: someuser
+gitlab_smtp_password: apassword
+gitlab_smtp_address: smtp.example.com
+gitlab_smtp_port: 25
+gitlab_smtp_domain: smtp.example.com
+gitlab_email_enabled: "false" # set to "true" (quotes included) to enable
+gitlab_email_from: stoplight@example.com
+gitlab_email_display_name: Stoplight
+gitlab_email_reply_to: stoplight@example.com
+
+# To use a custom SSL certificate, set the location here
+nginx_certificate_path: /etc/ssl/myssl.cert
+nginx_key_path: /etc/ssl/myssl.key

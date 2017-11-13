@@ -1,0 +1,96 @@
+---
+
+- name: create gitlab directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  with_items:
+    - "{{ gitlab_conf_dir }}"
+    - "{{ gitlab_data_dir }}"
+    - "{{ gitlab_backup_dir }}"
+
+- name: set gitlab configuration
+  template:
+    src: gitlab.rb.j2
+    dest: "{{ gitlab_conf_dir }}/gitlab.rb"
+    owner: root
+    group: root
+    mode: 0600
+  register: gitlab_configuration_template
+
+- name: set backup script
+  template:
+    src: run-backup.sh
+    dest: /usr/sbin/run-gitlab-backup.sh
+    mode: 0755
+    owner: root
+    group: root
+
+- name: set backup cron job
+  cron:
+    name: Gitlab backup
+    minute: "*/15"
+    job: /usr/sbin/run-gitlab-backup.sh
+  when: gitlab_s3_bucket is defined and gitlab_s3_bucket != ""
+    
+- name: run first gitlab container
+  docker_container:
+    name: gitlab-1
+    image: quay.io/stoplight/gitlab:{{ gitlab_version|default('latest', true) }}
+    hostname: "{{ gitlab_hostname }}"
+    published_ports:
+      - 8050:80
+    links:
+      - postgres
+    volumes:
+      - "{{ gitlab_conf_dir }}:/etc/gitlab"
+      - "{{ gitlab_data_dir }}:/var/opt/gitlab"
+      - /var/log/gitlab:/var/log/gitlab
+    state: started
+    restart: yes
+    restart_policy: unless-stopped
+  register: gitlab_first_container
+
+- name: wait for gitlab container to become available
+  pause:
+    minutes: 2
+  become: no
+  when: gitlab_first_container.changed
+
+- name: collect auth token from postgres
+  command: >
+    docker exec postgres
+    psql
+    -U{{ gitlab_db_username }}
+    -c 'select authentication_token from users where id = 1;'
+    -t
+    {{ gitlab_db_database }}
+  register: gitlab_admin_token_output
+
+- name: save gitlab admin token
+  set_fact:
+    gitlab_admin_token: "{{ gitlab_admin_token_output.stdout|trim }}"
+
+- name: enable prometheus metrics
+  uri:
+    url: "http://localhost:8050/api/v4/application/settings?private_token={{ gitlab_admin_token }}"
+    method: PUT
+    body: >-
+      {
+      "prometheus_metrics_enabled": true
+      }
+    body_format: json
+    validate_certs: no
+
+- name: disable branch protection
+  uri:
+    url: "http://localhost:8050/api/v4/application/settings?private_token={{ gitlab_admin_token }}"
+    method: PUT
+    body: >-
+      {
+      "default_branch_protection": 0
+      }
+    body_format: json
+    validate_certs: no

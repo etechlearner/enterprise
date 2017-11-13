@@ -1,0 +1,5 @@
+---
+
+nginx_deploy_ssl: no
+nginx_certificate_path:
+nginx_key_path:

@@ -1,0 +1,50 @@
+---
+
+- hosts: all
+  become: yes
+  pre_tasks:
+    - lineinfile:
+        name: /etc/hosts
+        line: "{{ item }} {% for g in hostvars[item]['group_names'] %}{{g}} {{g}}.on-prem.stoplight.io {% endfor %}"
+      with_items: "{{ groups['all'] }}"
+  roles:
+    - role: docker
+
+- hosts: gitlab
+  become: yes
+  roles:
+    # - role: nginx
+    #   nginx_deploy_ssl: no
+    #   nginx_confs_to_set:
+    #     - "http/gitlab"
+    #     - "http/stoplight-api"
+    # - role: postgresql
+    - role: gitlab
+    - role: stoplight-api
+
+- hosts: prism
+  become: yes
+  roles:
+    - role: nginx
+      nginx_deploy_ssl: no
+      nginx_confs_to_set:
+        - "http/prism"
+    - role: prism
+
+- hosts: app
+  become: yes
+  roles:
+    - role: nginx
+      nginx_deploy_ssl: no
+      nginx_confs_to_set:
+        - "http/stoplight-app"
+    - role: stoplight-app
+
+- hosts: exporter
+  become: yes
+  roles:
+    - role: nginx
+      nginx_deploy_ssl: no
+      nginx_confs_to_set:
+        - "http/stoplight-exporter"
+    - role: stoplight-exporter

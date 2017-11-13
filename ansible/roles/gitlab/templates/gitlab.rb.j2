@@ -1,0 +1,104 @@
+# coding: utf-8
+external_url '{{ gitlab_external_url }}'
+
+gitlab_rails['gitlab_email_enabled'] = {{ gitlab_email_enabled }}
+gitlab_rails['gitlab_email_from'] = '{{ gitlab_email_from }}'
+gitlab_rails['gitlab_email_display_name'] = '{{ gitlab_email_display_name }}'
+gitlab_rails['gitlab_email_reply_to'] = '{{ gitlab_email_reply_to }}'
+
+gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8','172.17.0.0/8']
+
+gitlab_rails['manage_backup_path'] = true
+gitlab_rails['backup_path'] = "{{ gitlab_backup_dir }}"
+gitlab_rails['backup_keep_time'] = {{ gitlab_backup_keep_time }}
+
+gitlab_rails['backup_upload_connection'] = {
+  'provider' => 'AWS',
+  'region' => '{{ gitlab_s3_region }}',
+  'aws_access_key_id' => '{{ gitlab_s3_access_key }}',
+  'aws_secret_access_key' => '{{ gitlab_s3_secret_key }}'
+}
+gitlab_rails['backup_upload_remote_directory'] = '{{ gitlab_s3_bucket }}'
+gitlab_rails['backup_multipart_chunk_size'] = 104857600
+
+# git_data_dirs({
+#   "default" => {
+#     "path" => "{{ gitlab_data_dir }}",
+#     "failure_count_threshold" => 10,
+#     "failure_wait_time" => 30,
+#     "failure_reset_time" => 1800,
+#     "storage_timeout" => 30
+#    }
+# })
+
+gitlab_rails['initial_root_password'] = "{{ gitlab_root_password }}"
+gitlab_rails['initial_shared_runners_registration_token'] = "{{ gitlab_runner_registration_token }}"
+
+{% if gitlab_use_external_database %}
+postgresql['enable'] = false
+gitlab_rails['db_database'] = "{{ gitlab_db_database }}"
+gitlab_rails['db_username'] = "{{ gitlab_db_username }}"
+gitlab_rails['db_password'] = "{{ gitlab_db_password|default("nil", true) }}"
+gitlab_rails['db_host'] = "{{ gitlab_db_host|default("nil", true) }}"
+gitlab_rails['db_port'] = {{ gitlab_db_port }}
+gitlab_rails['db_sslmode'] = "{{ gitlab_db_ssl_mode|default("nil", true)}}"
+{% else %}
+postgresql['enable'] = true
+postgresql['listen_address'] = "0.0.0.0"
+postgresql['sql_replication_user'] = "gitlab_replicator"
+postgresql['wal_level'] = "replica"
+postgresql['wal_keep_segments'] = 10
+postgresql['max_standby_archive_delay'] = "30s"
+postgresql['max_standby_streaming_delay'] = "30s"
+postgresql['synchronous_commit'] = "on"
+postgresql['synchronous_standby_names'] = ''
+postgresql['hot_standby_feedback'] = 'off'
+postgresql['random_page_cost'] = 2.0
+postgresql['log_temp_files'] = -1
+postgresql['log_checkpoints'] = 'off'
+postgresql['trust_auth_cidr_addresses'] = ['127.0.0.0/24']
+
+{% endif %}
+
+{% if gitlab_use_external_redis %}
+redis['enable'] = false
+gitlab_rails['redis_host'] = "{{ gitlab_redis_host }}"
+gitlab_rails['redis_port'] = {{ gitlab_redis_port }}
+{% if gitlab_redis_password is defined and gitlab_redis_password != None %}
+gitlab_rails['redis_password'] = "{{ gitlab_redis_password }}"
+{% endif %}
+gitlab_rails['redis_database'] = "{{ gitlab_redis_database }}"
+redis['maxclients'] = "{{ gitlab_redis_maxclients }}"
+{% endif %}
+
+gitlab_rails['smtp_enable'] = {{ gitlab_smtp_enable }}
+gitlab_rails['smtp_address'] = "{{ gitlab_smtp_address }}"
+gitlab_rails['smtp_port'] = {{ gitlab_smtp_port }}
+gitlab_rails['smtp_user_name'] = "{{ gitlab_smtp_user_name }}"
+gitlab_rails['smtp_password'] = "{{ gitlab_smtp_password }}"
+gitlab_rails['smtp_domain'] = "{{ gitlab_smtp_domain }}"
+gitlab_rails['smtp_authentication'] = "{{ gitlab_smtp_authentication }}"
+gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab_smtp_enable_starttls_auto }}
+gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls }}
+
+sidekiq['concurrency'] = {{ gitlab_sidekiq_concurrency }}
+
+{% if not gitlab_nginx_enabled %}
+web_server['external_users'] = ['www-data']
+nginx['enable'] = false
+{% endif %}
+nginx['listen_https'] = false
+nginx['proxy_set_headers'] = {
+  "X-Forwarded-Proto" => "http{% if global_ssl_enabled %}s{% endif %}",
+  "X-Forwarded-Ssl" => "{% if global_ssl_enabled %}on{% else %}off{% endif %}"
+}
+{% if not global_ssl_enabled %}
+nginx['redirect_http_to_https'] = false
+{% endif %}
+nginx['listen_port'] = {{ gitlab_nginx_port }}
+
+prometheus['enable'] = false
+gitlab_monitor['enable'] = true
+
+# gitlab_rails['gitlab_shell_ssh_port'] = 2202
+

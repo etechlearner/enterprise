@@ -1,0 +1,50 @@
+---
+
+- name: install nginx [debian/ubuntu]
+  apt:
+    name: nginx
+    state: latest
+  when: ansible_os_family == "Debian"
+
+- name: install nginx [centos/rhel]
+  yum:
+    name: nginx
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: create nginx configuration directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - /etc/nginx/conf.d/http
+    - /etc/nginx/conf.d/stream
+    - /var/www/html
+
+- name: set default configuration
+  template:
+    src: default.conf.j2
+    dest: /etc/nginx/nginx.conf
+  register: nginx_default_configuration
+
+- name: set default landing page
+  template:
+    src: index.html
+    dest: "{{ item }}"
+  with_items:
+    - /var/www/html/index.html
+    - /usr/share/nginx/html/index.html
+
+- name: set app templates
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: /etc/nginx/conf.d/{{ item }}.conf
+  with_items: "{{ nginx_confs_to_set }}"
+  when: nginx_confs_to_set is defined
+
+- name: reload nginx
+  service:
+    name: nginx
+    state: reloaded
+    enabled: yes

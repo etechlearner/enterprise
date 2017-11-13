@@ -1,0 +1,88 @@
+---
+# The version of Gitlab to install
+gitlab_version: latest
+
+# The URL that Gitlab will use in all communication.
+# This must be set to HTTPS when using HTTPS (even if terminated at a proxy)
+gitlab_hostname:
+
+gitlab_display_hostname:
+gitlab_external_url: https://{{ gitlab_display_hostname }}
+
+# Initial root user password
+gitlab_root_password: eiyaes5eeJudae9iecei0air
+
+gitlab_conf_dir: /etc/gitlab
+# External storage directory for git data
+gitlab_data_dir: /var/opt/gitlab
+# Directory to store backups
+gitlab_backup_dir: /var/opt/gitlab/backups
+# How long to keep backups
+gitlab_backup_keep_time: 259200
+
+# Gitlab S3 backup settings
+gitlab_sync_backups_to_s3: no
+gitlab_s3_region:
+gitlab_s3_bucket:
+gitlab_s3_access_key:
+gitlab_s3_secret_key:
+gitlab_s3_directory:
+
+# The port that Gitlab's embedded nginx will listen on.
+# This should most likely be randomized on deploy.
+gitlab_listen_port: 9384
+
+# Postgresql configuration
+gitlab_use_external_database: no
+gitlab_db_database: gitlabhq_production
+gitlab_db_username: gitlab
+gitlab_db_password:
+gitlab_db_host:
+gitlab_db_port: 5432
+gitlab_db_ssl_mode: require
+
+# Redis configuration
+gitlab_use_external_redis: no
+gitlab_redis_host: 127.0.0.1
+gitlab_redis_port: 6379
+gitlab_redis_password:
+gitlab_redis_database: 0
+gitlab_redis_maxclients: 10
+
+# SMTP configuration
+gitlab_smtp_enable: "false"
+gitlab_smtp_address: 
+gitlab_smtp_port: 
+gitlab_smtp_user_name:
+gitlab_smtp_password:
+gitlab_smtp_domain: 
+gitlab_smtp_authentication: login
+gitlab_smtp_enable_starttls_auto: "true"
+gitlab_smtp_tls: "false"
+
+# Email configuration
+gitlab_email_enabled: "false"
+gitlab_email_from: 
+gitlab_email_display_name: 
+gitlab_email_reply_to: 
+
+# Sidekiq concurrency (affects load on redis instance)
+gitlab_sidekiq_concurrency: 2
+
+# Whether Gitlab's embedded nginx should be used
+gitlab_nginx_enabled: true
+
+# For IP whitelisting. These will be placed into the gitlab.conf.j2 file under the nginx role.
+gitlab_whitelist_ips: no
+gitlab_ips_to_whitelist:
+
+# If set to yes, will add open server for '*git' and '/uploads' URL's
+gitlab_enable_dual_dns: no
+gitlab_dual_hostname: 
+# SSL certificates (required) - NOTE: It is up to the operator to have these placed on the server
+gitlab_dual_cert_path:
+gitlab_dual_key_path:
+
+gitlab_runner_registration_token: su6uWeitohRooJeech0beech
+
+gitlab_nginx_port: 6080

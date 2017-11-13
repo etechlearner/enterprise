@@ -1,0 +1,16 @@
+---
+
+sl_api_public_path: "./public"
+
+sl_api_sign_secret:
+sl_api_gitlab_admin_token:
+sl_api_postgres_url:
+
+sl_api_app_url:
+sl_api_url:
+sl_api_exporter_host:
+sl_api_gitlab_url:
+
+sl_api_version:
+
+sl_api_hostname:

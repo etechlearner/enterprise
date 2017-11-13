@@ -1,0 +1,11 @@
+---
+
+prism_hostname: 
+prism_version: latest
+prism_sl_api_url:
+prism_ref_url: 
+prism_export_host:
+
+prism_max_queue_size: 500
+prism_max_runtime_pool_size: 15
+prism_max_workers: 25

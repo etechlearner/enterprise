@@ -1,0 +1,28 @@
+server {
+  server_name              {{ influxdb_hostname }} www.{{ influxdb_hostname }};
+
+  listen                   8932 ssl http2;
+  listen                   [::]:8932 ssl http2;
+
+  ssl_certificate          /etc/letsencrypt/live/{{ influxdb_hostname }}/fullchain.pem;
+  ssl_certificate_key      /etc/letsencrypt/live/{{ influxdb_hostname }}/privkey.pem;
+  ssl_session_cache        shared:SSL:20m;
+  ssl_session_timeout      60m;
+  ssl_protocols            TLSv1 TLSv1.1 TLSv1.2;
+  ssl_prefer_server_ciphers on;
+  ssl_ciphers              ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
+  add_header               Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+  server_tokens off;
+
+  location / {
+    proxy_set_header    Host            $host;
+    proxy_set_header    X-Forwarded-For $remote_addr;
+    proxy_set_header    X-Forwarded-Proto $scheme;
+    proxy_pass          http://127.0.0.1:8086;
+    proxy_redirect      http://localhost:8086 https://{{ influxdb_hostname }};
+  }
+
+  location /.well-known/ {
+    root                /var/le-challenges/{{ influxdb_hostname }};
+  }
+}

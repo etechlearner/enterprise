@@ -1,0 +1,5 @@
+---
+
+docker_registry:
+docker_login:
+docker_password:

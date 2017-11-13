@@ -1,0 +1,42 @@
+---
+
+# version information
+postgresql_version: 9.6-alpine
+
+# app
+sl_app_url: http{% if global_ssl_enabled %}s{% endif %}://{{ sl_app_hostname }}
+sl_app_api_url: http{% if global_ssl_enabled %}s{% endif %}://{{ sl_api_hostname }}
+sl_app_export_url: "{{ sl_exporter_url }}"
+sl_app_prism_url: http{% if global_ssl_enabled %}s{% endif %}://{{ prism_hostname }}
+sl_app_gitlab_url: http{% if global_ssl_enabled %}s{% endif %}://{{ gitlab_hostname }}
+
+# api
+sl_api_url: http{% if global_ssl_enabled %}s{% endif %}://{{ sl_api_hostname }}
+sl_api_app_url: http{% if global_ssl_enabled %}s{% endif %}://{{ sl_app_hostname }}
+sl_api_gitlab_url: http://{{ gitlab_hostname }}
+sl_api_gitlab_admin_token: "{{ gitlab_admin_token }}"
+sl_api_postgres_url: postgresql://{{ postgresql_user }}:{{ postgresql_password }}@{{ postgresql_hostname }}:5432/{{ postgresql_database }}
+
+# exporter
+sl_exporter_port: 3031
+sl_exporter_api_url: "{{ sl_api_url }}"
+sl_exporter_app_url: "{{ sl_app_url }}"
+sl_exporter_url: http{% if global_ssl_enabled %}s{% endif %}://{{ sl_exporter_hostname }}
+
+# prism
+prism_sl_api_url: http{% if global_ssl_enabled %}s{% endif %}://{{ sl_api_hostname }}
+prism_ref_url: http{% if global_ssl_enabled %}s{% endif %}://%s{{ prism_hostname }}
+prism_env: "{{ app_environment }}"
+prism_export_host: "{{ sl_exporter_url }}"
+
+# gitlab
+gitlab_display_hostname: "{{ sl_app_hostname }}"
+gitlab_external_url: http{% if global_ssl_enabled %}s{% endif %}://{{ gitlab_display_hostname }}
+gitlab_nginx_port: 80
+gitlab_use_external_database: yes
+gitlab_db_host: "{{ postgresql_hostname }}"
+gitlab_db_database: "{{ postgresql_database }}"
+gitlab_db_username: "{{ postgresql_user }}"
+gitlab_db_password: "{{ postgresql_password }}"
+gitlab_db_ssl_mode: allow
+gitlab_enable_dual_dns: no

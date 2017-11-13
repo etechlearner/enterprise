@@ -1,0 +1,6 @@
+---
+
+postgresql_hostname:
+postgresql_version: 9.6-alpine
+postgresql_data_dir: /var/lib/postgres
+postgresql_password: Auc3UF4eicheez6ohphe8bia

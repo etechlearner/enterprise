@@ -1,0 +1,1 @@
+{{ sl_api_file_config|to_json }}

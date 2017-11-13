@@ -1,0 +1,45 @@
+# user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+error_log /var/log/nginx/error.log;
+
+# Load dynamic modules. See /usr/share/nginx/README.dynamic.
+include /usr/share/nginx/modules/*.conf;
+
+events {
+    worker_connections 2048;
+}
+
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$host" '
+                      '"$http_user_agent" "$upstream_addr" '
+		      '$request_time $upstream_response_time';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+    gzip on;
+    server_tokens off;
+    client_max_body_size 30M;
+    
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    server {
+    	   server_name	_;
+	   listen       80;
+	   location / {
+	   	    root /var/www/html;
+		    index index.html;
+	   }
+    }
+
+    include /etc/nginx/conf.d/http/*.conf;
+}
+
+include /etc/nginx/conf.d/stream/*.conf;

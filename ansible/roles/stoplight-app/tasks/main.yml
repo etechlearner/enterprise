@@ -1,0 +1,46 @@
+---
+
+- set_fact:
+    sl_app_docker_shared_vars:
+      NODE_ENV: "production"
+      BUILD_ID: "{{ sl_app_version|default('latest', true) }}"
+
+      SL_APP_HOST: "{{ sl_app_url }}"
+      SL_API_HOST: "{{ sl_app_api_url }}"
+      SL_GITLAB_HOST: "{{ sl_app_gitlab_url }}"
+      SL_EXPORTER_HOST: "{{ sl_app_export_url }}"
+      SL_PRISM_HOST: "{{ sl_app_prism_url }}"
+
+- name: run first app container
+  docker_container:
+    name: stoplight-app-1
+    hostname: "{{ sl_app_hostname }}-1"
+    image: quay.io/stoplight/app:{{ sl_app_version|default('latest', true) }}
+    ports:
+      - 3100:3100
+    env: "{{ sl_app_docker_shared_vars }}"
+    state: started
+    cleanup: yes
+    restart: yes
+    restart_policy: unless-stopped
+  register: stoplight_app_first_container
+
+- name: sleep for 10 seconds
+  pause:
+    seconds: 10
+  delegate_to: localhost
+  become: no
+  when: stoplight_app_first_container.changed
+
+- name: run second app container
+  docker_container:
+    name: stoplight-app-2
+    hostname: "{{ sl_app_hostname }}-2"
+    image: quay.io/stoplight/app:{{ sl_app_version|default('latest', true) }}
+    ports:
+      - 3101:3100
+    env: "{{ sl_app_docker_shared_vars }}"
+    state: started
+    cleanup: yes
+    restart: yes
+    restart_policy: unless-stopped
