@@ -1,0 +1,73 @@
+#
+# NOTE - This file was designed for testing purposes only, and is not suitable
+# for a production deployment.
+#
+
+# Bind address/port to serve HTTP traffic on
+http_bind: "0.0.0.0:80"
+
+# Bind address/port to serve HTTPS traffic on, if enabled (see below)
+https_bind: "0.0.0.0:443"
+
+# Whether to enable SSL, powered by LetsEncrypt. If true, HTTP serving is
+# disabled.
+ssl_enabled: no
+
+# Stoplight API Host
+sl_api_host: "http://api.stoplight.local:3030"
+
+# Token/JWT for authenticating reqeusts to the api.
+sl_api_token: "sz6g88HQSfr1LUCsSBHD"
+
+# Duration until cookies expire. Valid time units are "ns", "us" (or "µs"),
+# "ms", "s", "m", "h".
+cookie_expiration: 24h
+
+# Bind address/port to server admin/management API
+admin_bind: "0.0.0.0:9098"
+
+# Whether to enable SSL when serving admin API
+admin_ssl_enabled: no
+# If SSL is enabled for the management API, a certificate and key must be
+# provided
+admin_ssl_cert_path: ""
+admin_ssl_key_path: ""
+
+# If set, only requests with the following IPs will be responded to by the admin
+# API
+admin_ip_whitelist:
+  # - 127.0.0.1
+
+# Directory to store builds, build metadata, and dynamically-generated
+# certificates
+data_dir: /var/lib/pubs
+
+# Domains that should be protected from registration. When a client visits one
+# of these domains, a generic landing page will be served.
+reserved_domains:
+  # - "something.example.com"
+
+# Domains that should not allow nested subdomains > 1 level deep. (ie, for
+# example.com, a.example.com is allowed, while a.b.example.com is not).
+forbid_subdomains_on:
+  # - "example.com"
+
+# Domains that should bypass the dynamic SSL certificate generation logic (ie,
+# don't use LetsEncrypt for these domains). Include a leading star (*) in the
+# domain if the certificate is wildcarded (ie, *.example.com for a wildcard
+# certificate on the example.com domain).
+static_ssl_domains:
+  # - domain: "*.example.com"
+  #   cert-path: /path/to/certificate
+  #   key-path: /path/to/key
+
+# Whether to enable bugsnag (bugsnag.com) notifications on errors and panics for
+# the provided API key.
+bugsnag_enabled: no
+bugsnag_key: ""
+# URL to use when performing authorization callbacks
+# auth_callback_url: http://localhost:3030
+
+# Key to use for encrypting and signing request cookies. NOTE: Must be 24 bytes
+# in length (24 characters).
+# secret_key: quo6Gee9pahbee9eeteoy1Am

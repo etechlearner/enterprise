@@ -1,0 +1,162 @@
+#
+# NOTE - This file was designed for testing purposes only, and is not suitable
+# for a production deployment.
+#
+
+version: "3.5"
+
+networks:
+  backend:
+    name: stoplight_backend
+    driver: bridge
+  frontend:
+    name: stoplight_frontend
+    driver: bridge
+
+services:
+  postgres:
+    container_name: postgres
+    image: sameersbn/postgresql:9.6-4
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./stoplight-data/postgres:/var/lib/postgresql:Z
+    environment:
+      - DB_USER=stoplight
+      # this has been randomized for security - this is not a real password
+      - DB_PASS=veetah9pum9ciesee0aiWeegoh3ve2Ya
+      - DB_NAME=stoplight
+      - DB_EXTENSION=pg_trgm
+      - PG_TRUST_LOCALNET=true
+    networks:
+      - backend
+
+  redis:
+    container_name: redis
+    image: sameersbn/redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./stoplight-data/redis:/var/lib/redis:Z
+    environment:
+      # this has been randomized for security - this is not a real password
+      - REDIS_PASSWORD=bahghoohaef3AhKah2jusah2cif4shae
+    networks:
+      - backend
+
+  gitlab:
+    container_name: gitlab
+    image: quay.io/stoplight/gitlab:v11.0.6
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./stoplight-data/gitlab:/var/opt/gitlab
+      # optionally store logs outside the container
+      # - ./gitlab-logs:/var/log/gitlab
+      - ./config/gitlab.rb:/etc/gitlab/gitlab.rb
+    networks:
+      - backend
+      - frontend
+
+  api:
+    container_name: api.stoplight.local
+    image: quay.io/stoplight/api:4.7.3
+    restart: always
+    depends_on:
+      - gitlab
+      - postgres
+      - redis
+    ports:
+      - "3030:3030"
+    networks:
+      - backend
+      - frontend
+    environment:
+      - NODE_ENV=production
+      - SIGN_SECRET=something_super_secret_and_random
+      - AUTH_SECRET=something_else_super_secret_and_random
+      - SL_JWT_SECRET=another_thing_that_is_secret_and_random
+      - SL_POSTGRES_URL=postgresql://stoplight:veetah9pum9ciesee0aiWeegoh3ve2Ya@postgres:5432/stoplight
+      - SL_APP_HOST=http://app.stoplight.local:3100
+      - SL_API_HOST=http://api.stoplight.local:3030
+      - SL_GITLAB_HOST=http://gitlab:8000
+      - SL_TASKER_HOST=http://tasker.stoplight.local:9432
+      - SL_PRISM_HOST=http://prism.stoplight.local:4050
+      - SL_PUBS_ADMIN_URL=http://pubs.stoplight.local:9098
+      - SL_REDIS_URL=redis://:bahghoohaef3AhKah2jusah2cif4shae@redis:6379
+      - SL_COOKIE_DOMAIN=stoplight.local
+
+  app:
+    container_name: app.stoplight.local
+    image: quay.io/stoplight/app:4.7.4
+    restart: always
+    ports:
+      - "3100:3100"
+    networks:
+      - frontend
+    environment:
+      - NODE_ENV=production
+      - RELEASE_STAGE=production
+      - SL_APP_HOST=http://app.stoplight.local:3100
+      - SL_API_HOST=http://api.stoplight.local:3030
+      - SL_PRISM_HOST=http://prism.stoplight.local:4050
+      - SL_PUBS_INGRESS=ingress.pubs.stoplight.local:9080
+      - SL_PUBS_HOST=pubs.stoplight.local:9080
+
+  prism:
+    container_name: prism.stoplight.local
+    image: quay.io/stoplight/prism-multi:2.0.17
+    restart: always
+    ports:
+      - "4050:4050"
+    networks:
+      - backend
+      - frontend
+    environment:
+      - SL_API_HOST=http://api.stoplight.local:3030
+      - SL_HOST=http://%sprism.stoplight.local
+
+  pubs:
+    container_name: pubs.stoplight.local
+    image: quay.io/stoplight/pubs:0.2.1
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - "9098:9098"
+      - "9080:80"
+    volumes:
+      - ./stoplight-data/pubs:/var/lib/pubs
+      - ./config/pubs.yml:/etc/pubs/pubs.yml
+    networks:
+      - backend
+      - frontend
+
+  tasker:
+    container_name: tasker.stoplight.local
+    image: quay.io/stoplight/tasker:0.1.12
+    restart: always
+    depends_on:
+      - redis
+    command: |
+      --verbose 
+      --listen 0.0.0.0:9432 
+      --redis redis://:bahghoohaef3AhKah2jusah2cif4shae@redis:6379 
+      --ns tasker
+    ports:
+      - "9432:9432"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - HUB_DOCKER_IMAGE=4.7.5
+      - RELEASE_STAGE=production
+      - ENV=production
+      - NODE_ENV=production
+      - TASKER_DOCKER_NETWORK=stoplight_backend
+    networks:
+      - backend
