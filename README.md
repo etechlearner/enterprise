@@ -94,6 +94,6 @@ If you run into any errors, be sure to check the container log output with `dock
 
 ## Troubleshooting
 
-If you run into issues at any time, please don't hesitate to contact us directyly at customers@stoplight.io for assistance.
+If you run into issues at any time, please don't hesitate to contact us directly at customers@stoplight.io for assistance.
 
 > Be sure to include as much information as you can (host OS, the docker-compose file, any relevant logs, etc) when opening tickets.
