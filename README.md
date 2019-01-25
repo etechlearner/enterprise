@@ -1,7 +1,7 @@
-<div style="center">
-<img height="150px" src="docs/assets/images/stoplight-dude-dark.png">
-<h1>Stoplight</h1>
-</div>
+<p align="center">
+  <img height="150px" src="docs/assets/images/stoplight-dude-dark.png"/>
+  <h1>Stoplight</h1>
+</p>
 
 ## Getting Setup
 
