@@ -67,8 +67,14 @@ def get_groups():
         data = r.json()
         if len(data) == 0:
             break
-        groups += data
+
+        for group in data:
+            if group['parent_id'] == None:
+                # only retrieve top-level groups (not sub-groups)
+                groups.append(group)
+
         page += 1
+
     return groups
 
 
