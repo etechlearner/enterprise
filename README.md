@@ -1,7 +1,8 @@
 <p align="center">
-  <img height="150px" src="docs/assets/images/stoplight-dude-dark.png"/>
-  <h1>Stoplight</h1>
+  <img height="100px" src="docs/assets/images/stoplight-dude-dark.png"/>
+  <br><br><b>Stoplight Enterprise</b>
 </p>
+
 
 ## Getting Setup
 
