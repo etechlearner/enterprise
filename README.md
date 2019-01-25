@@ -1,3 +1,8 @@
+<div style="center">
+<img height="150px" src="docs/assets/images/stoplight-dude-dark.png">
+<h1>Stoplight</h1>
+</div>
+
 ## Getting Setup
 
 The guide below covers setting up the [Stoplight platform](https://next.stoplight.io) in a local/test environment using the `docker-compose` tool. This guide assumes you already are familiar with Docker and have been provided access to the Stoplight Docker registry by the Stoplight Support team.
