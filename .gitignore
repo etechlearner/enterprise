@@ -5,3 +5,4 @@ secrets
 *tfstate
 *tfstate.backup
 *tf2
+!/terraform/aws-ha/keys
