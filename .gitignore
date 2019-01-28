@@ -1,2 +1,7 @@
 /stoplight-data
 /gitlab-logs
+.terraform/
+secrets
+*tfstate
+*tfstate.backup
+*tf2
