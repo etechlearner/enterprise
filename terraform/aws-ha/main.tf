@@ -95,7 +95,7 @@ resource "aws_instance" "stoplight-a" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = "${file("/Users/ross/.ssh/id_rsa")}"
+      private_key = "${file("./keys/aws-testing.pem")}"
     }
   }
 
@@ -108,7 +108,7 @@ resource "aws_instance" "stoplight-a" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = "${file("/Users/ross/.ssh/id_rsa")}"
+      private_key = "${file("./keys/aws-testing.pem")}"
     }
   }
 }
@@ -135,7 +135,7 @@ resource "aws_instance" "stoplight-b" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = "${file("/Users/ross/.ssh/id_rsa")}"
+      private_key = "${file("./keys/aws-testing.pem")}"
     }
   }
 
