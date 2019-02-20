@@ -16,19 +16,17 @@ networks:
 services:
   postgres:
     container_name: postgres
-    image: sameersbn/postgresql:9.6-4
+    image: postgres:11-alpine
     restart: always
     ports:
       - "5432:5432"
     volumes:
       - ./stoplight-data/postgres:/var/lib/postgresql:Z
     environment:
-      - DB_USER=stoplight
+      - POSTGRES_USER=stoplight
       # this has been randomized for security - this is not a real password
-      - DB_PASS=veetah9pum9ciesee0aiWeegoh3ve2Ya
-      - DB_NAME=stoplight
-      - DB_EXTENSION=pg_trgm
-      - PG_TRUST_LOCALNET=true
+      - POSTGRES_PASSWORD=veetah9pum9ciesee0aiWeegoh3ve2Ya
+      - POSTGRES_DB=stoplight
     networks:
       - backend
 
@@ -41,24 +39,41 @@ services:
     volumes:
       - ./stoplight-data/redis:/var/lib/redis:Z
     environment:
+      []
       # this has been randomized for security - this is not a real password
-      - REDIS_PASSWORD=bahghoohaef3AhKah2jusah2cif4shae
+      # - REDIS_PASSWORD=bahghoohaef3AhKah2jusah2cif4shae
     networks:
       - backend
 
   gitlab:
     container_name: gitlab
-    image: quay.io/stoplight/gitlab:v11.0.6
+    image: quay.io/stoplight/gitlab:v11.0.6-source
     depends_on:
       - postgres
       - redis
     ports:
-      - "8000:8000"
+      - "8000:80"
     volumes:
-      - ./stoplight-data/gitlab:/var/opt/gitlab
+      - ./stoplight-data/gitlab:/home/git/data
       # optionally store logs outside the container
       # - ./gitlab-logs:/var/log/gitlab
       - ./config/gitlab.rb:/etc/gitlab/gitlab.rb
+    environment:
+      - GITLAB_PORT=8000
+      - DB_ADAPTER=postgresql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=stoplight
+      - DB_USER=stoplight
+      - DB_PASS=veetah9pum9ciesee0aiWeegoh3ve2Ya
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      # used to encrypt CI secret variables
+      - GITLAB_SECRETS_DB_KEY_BASE=4PXxFr4w3mcwqmTMNXJTFqsmWdwjHxNCWtwRPTfz4WmczHpscgPF4MVWfrF7rJRr
+      # used for password reset links
+      - GITLAB_SECRETS_SECRET_KEY_BASE=cqLJmvLbkz9sxwwsLXPPcgTvCJfMqhsR9hnN4tw9R7Cvx4hsWFpjhJTWRJsgvvsd
+      # used to encrypt 2FA secrets in the database
+      - GITLAB_SECRETS_OTP_KEY_BASE=W7WLkJmg7fJkHJhqt9qssJtcdPKsLXc7JsshpWPFCz7ns7WgfLrLzXrFzcgsKqqK
     networks:
       - backend
       - frontend
@@ -144,9 +159,9 @@ services:
     depends_on:
       - redis
     command: |
-      --verbose 
-      --listen 0.0.0.0:9432 
-      --redis redis://:bahghoohaef3AhKah2jusah2cif4shae@redis:6379 
+      --verbose
+      --listen 0.0.0.0:9432
+      --redis redis://:bahghoohaef3AhKah2jusah2cif4shae@redis:6379
       --ns tasker
     ports:
       - "9432:9432"
