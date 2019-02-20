@@ -57,7 +57,6 @@ services:
       - ./stoplight-data/gitlab:/home/git/data
       # optionally store logs outside the container
       # - ./gitlab-logs:/var/log/gitlab
-      - ./config/gitlab.rb:/etc/gitlab/gitlab.rb
     environment:
       - GITLAB_PORT=8000
       - DB_ADAPTER=postgresql
