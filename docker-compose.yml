@@ -48,17 +48,18 @@ services:
   gitlab:
     container_name: gitlab
     image: quay.io/stoplight/gitlab:v11.0.6-source
+    user: git
     depends_on:
       - postgres
       - redis
     ports:
-      - "8000:80"
+      - "8000:8000"
     volumes:
       - ./stoplight-data/gitlab:/home/git/data
       # optionally store logs outside the container
-      # - ./gitlab-logs:/var/log/gitlab
+      # - ./gitlab-logs:/home/git/logs
     environment:
-      - GITLAB_PORT=8000
+      - GITLAB_LOG_DIR=/home/git/logs
       - DB_ADAPTER=postgresql
       - DB_HOST=postgres
       - DB_PORT=5432
