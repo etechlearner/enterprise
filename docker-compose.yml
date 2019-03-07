@@ -132,10 +132,25 @@ services:
       - "9080:80"
     volumes:
       - ./stoplight-data/pubs:/var/lib/pubs
-      - ./config/pubs.yml:/etc/pubs/pubs.yml
+      # optionally configure via file
+      # - ./config/pubs.yml:/etc/pubs/pubs.yml
     networks:
       - backend
       - frontend
+    environment:
+      - PUBS_HTTP_BIND=0.0.0.0:80
+      - PUBS_HTTPS_BIND=0.0.0.0:443
+      # set to true to enable LetsEncrypt automatic SSL cert provisioning
+      - PUBS_SSL_ENABLED=false
+      - PUBS_SL_API_HOST=http://api.stoplight.local:3030
+      # set API token as per the readme
+      - PUBS_SL_API_TOKEN=abc123
+      - PUBS_ADMIN_BIND=0.0.0.0:9098
+      - PUBS_DATA_DIR=/var/lib/pubs
+      # enable SSL for admin port
+      # - PUBS_ADMIN_SSL_ENABLED=true
+      # - PUBS_ADMIN_SSL_CERT_PATH=/etc/ssl/pubs-admin.cert
+      # - PUBS_ADMIN_SSL_KEY_PATH=/etc/ssl/pubs-admin.key
 
   tasker:
     container_name: tasker.stoplight.local
@@ -144,9 +159,9 @@ services:
     depends_on:
       - redis
     command: |
-      --verbose 
-      --listen 0.0.0.0:9432 
-      --redis redis://:bahghoohaef3AhKah2jusah2cif4shae@redis:6379 
+      --verbose
+      --listen 0.0.0.0:9432
+      --redis redis://:bahghoohaef3AhKah2jusah2cif4shae@redis:6379
       --ns tasker
     ports:
       - "9432:9432"
