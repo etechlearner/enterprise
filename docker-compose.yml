@@ -58,6 +58,8 @@ services:
       # optionally store logs outside the container
       - ./gitlab-logs:/home/git/logs
     environment:
+      # If HTTPS is enabled (even terminated behind an LB) enable this option
+      # - GITLAB_HTTPS=true
       # Set two variables below (GITLAB_HOST, GITLAB_PORT) to the public-facing
       # host and port for the Stoplight app component, and _not_ GitLab
       - GITLAB_HOST=app.stoplight.local
