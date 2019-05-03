@@ -42,7 +42,7 @@ services:
       - ./stoplight-data/redis:/var/lib/redis:Z
     environment:
       # this has been randomized for security - this is not a real password
-      - REDIS_PASSWORD=bahghoohaef3AhKah2jusah2cif4shae
+      - REDIS_PASSWORD=toh4ahcuXoo1Pa4aeth2rai7thux
     networks:
       - backend
 
@@ -65,7 +65,7 @@ services:
 
   api:
     container_name: api.stoplight.local
-    image: quay.io/stoplight/api:4.7.3
+    image: quay.io/stoplight/api:4.9.8
     restart: always
     depends_on:
       - gitlab
@@ -78,9 +78,9 @@ services:
       - frontend
     environment:
       - NODE_ENV=production
-      - SIGN_SECRET=something_super_secret_and_random
-      - AUTH_SECRET=something_else_super_secret_and_random
-      - SL_JWT_SECRET=another_thing_that_is_secret_and_random
+      - SIGN_SECRET=EeK6ohSaeh6ei1oCheish6aithoedae4 # randomized
+      - AUTH_SECRET=Ohgh6vaiW2koomoh1Yohphi8Lahmei5o # randomized
+      - SL_JWT_SECRET=eifu5Iet0uw5aif2ohz7faiyeeCa5eob # randomized
       - SL_POSTGRES_URL=postgresql://stoplight:veetah9pum9ciesee0aiWeegoh3ve2Ya@postgres:5432/stoplight
       - SL_APP_HOST=http://app.stoplight.local:3100
       - SL_API_HOST=http://api.stoplight.local:3030
@@ -88,12 +88,12 @@ services:
       - SL_TASKER_HOST=http://tasker.stoplight.local:9432
       - SL_PRISM_HOST=http://prism.stoplight.local:4050
       - SL_PUBS_ADMIN_URL=http://pubs.stoplight.local:9098
-      - SL_REDIS_URL=redis://:bahghoohaef3AhKah2jusah2cif4shae@redis:6379
+      - SL_REDIS_URL=redis://:toh4ahcuXoo1Pa4aeth2rai7thux@redis:6379
       - SL_COOKIE_DOMAIN=stoplight.local
 
   app:
     container_name: app.stoplight.local
-    image: quay.io/stoplight/app:4.7.4
+    image: quay.io/stoplight/app:4.9.4
     restart: always
     ports:
       - "3100:3100"
@@ -110,7 +110,7 @@ services:
 
   prism:
     container_name: prism.stoplight.local
-    image: quay.io/stoplight/prism-multi:2.0.17
+    image: quay.io/stoplight/prism-multi:f32d0e5
     restart: always
     ports:
       - "4050:4050"
@@ -154,24 +154,18 @@ services:
 
   tasker:
     container_name: tasker.stoplight.local
-    image: quay.io/stoplight/tasker:0.1.12
+    image: quay.io/stoplight/tasker:0.2.1-omni
     restart: always
     depends_on:
       - redis
     command: |
       --verbose
-      --listen 0.0.0.0:9432
-      --redis redis://:bahghoohaef3AhKah2jusah2cif4shae@redis:6379
-      --ns tasker
     ports:
       - "9432:9432"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - HUB_DOCKER_IMAGE=4.7.5
-      - RELEASE_STAGE=production
-      - ENV=production
-      - NODE_ENV=production
-      - TASKER_DOCKER_NETWORK=stoplight_backend
+      - TASKER_MODE=shell
+      - TASKER_REDIS_HOSTPORT=redis://redis:6379
+      - TASKER_REDIS_PASSWORD=toh4ahcuXoo1Pa4aeth2rai7thux
+      - TASKER_HTTP_BIND=0.0.0.0:9432
     networks:
       - backend

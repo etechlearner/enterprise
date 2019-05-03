@@ -22,7 +22,7 @@ redis['enable'] = false
 gitlab_rails['redis_host'] = "redis"
 gitlab_rails['redis_port'] = 6379
 gitlab_rails['redis_database'] = 0
-gitlab_rails['redis_password'] = "bahghoohaef3AhKah2jusah2cif4shae"
+gitlab_rails['redis_password'] = "toh4ahcuXoo1Pa4aeth2rai7thux"
 
 postgresql['enable'] = false
 # postgresql['enable'] = true
