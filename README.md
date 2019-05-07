@@ -58,6 +58,12 @@ docker-compose up -d
 
 > Note that the `-d` argument sends the containers into the background. To see the status of containers in the background, run either `docker-compose ps` or `docker-compose logs --tail=10 -f`.
 
+After Gitlab is up and has finished its initial configuration (it should be reporting "healthy"), run the following commands to initialize the database:
+```bash
+docker exec -it gitlab gitlab-rake db:migrate VERSION=20180710120850
+docker exec -it gitlab gitlab-rake db:migrate
+```
+
 ### Configuring Pubs
 
 Pubs requires a GitLab admin API token in order to know which project to publish
@@ -72,21 +78,11 @@ Create an API key called 'pubs' with both `api` and `sudo` scopes.
 
 ![Collecting the API token](./docs/assets/images/configuring_pubs_2.png)
 
-Once the API key is generated, set it in the `config/pubs.yml` configuration
-file under the key: `sl_api_token`
+Once the API key is generated, set it as the value of `PUBS_SL_API_TOKEN` in `docker-compose.yml`.
 
-```yaml
-# Token/JWT for authenticating reqeusts to the api.
-sl_api_token: "sz6g88HQSfr1LUCsSBHD"
-```
-
-Once set, either restart or start the Pubs service with:
+Once set, recreate the Pubs service with:
 
 ```bash
-# if already running
-docker-compose restart pubs
-
-# if not running
 docker-compose up -d pubs
 ```
 
