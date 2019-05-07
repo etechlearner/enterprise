@@ -72,21 +72,11 @@ Create an API key called 'pubs' with both `api` and `sudo` scopes.
 
 ![Collecting the API token](./docs/assets/images/configuring_pubs_2.png)
 
-Once the API key is generated, set it in the `config/pubs.yml` configuration
-file under the key: `sl_api_token`
+Once the API key is generated, set it as the value of `PUBS_SL_API_TOKEN` in `docker-compose.yml`.
 
-```yaml
-# Token/JWT for authenticating reqeusts to the api.
-sl_api_token: "sz6g88HQSfr1LUCsSBHD"
-```
-
-Once set, either restart or start the Pubs service with:
+Once set, recreate the Pubs service with:
 
 ```bash
-# if already running
-docker-compose restart pubs
-
-# if not running
 docker-compose up -d pubs
 ```
 
