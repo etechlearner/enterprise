@@ -58,6 +58,12 @@ docker-compose up -d
 
 > Note that the `-d` argument sends the containers into the background. To see the status of containers in the background, run either `docker-compose ps` or `docker-compose logs --tail=10 -f`.
 
+After Gitlab is up and has finished its initial configuration (it should be reporting "healthy"), run the following commands to initialize the database:
+```bash
+docker exec -it gitlab gitlab-rake db:migrate VERSION=20180710120850
+docker exec -it gitlab gitlab-rake db:migrate
+```
+
 ### Configuring Pubs
 
 Pubs requires a GitLab admin API token in order to know which project to publish
