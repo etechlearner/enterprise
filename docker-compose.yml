@@ -16,7 +16,7 @@ networks:
 services:
   postgres:
     container_name: postgres
-    image: sameersbn/postgresql:9.6-4
+    image: sameersbn/postgresql:latest
     restart: always
     ports:
       - "5432:5432"
