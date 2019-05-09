@@ -119,3 +119,16 @@ There are two sets of credentials stored within GitLab:
      proceeding.
 
    - Revoke the old credentials previously in use by the service.
+
+## Rotating API Signing Keys
+
+The Stoplight API acts as the entrypoint for all client communication into the Stoplight platform. Within the API configuration there are three signing keys used:
+
+- `SIGN_SECRET` - This key is used for signing authenticated user sessions.
+- `AUTH_SECRET` - This key is used for server-side oauth2 handshakes.
+- `SL_JWT_SECRET` - This key is used for encrypting client JWT tokens that wrap the user sessions.
+
+Each of these keys can be rotated at any time, however, when rotated, **all user
+sessions** will be invalidated and all users will have to re-login to the
+Stoplight platform. Due to this, we recommend rotating these credentials during
+off-hours to lessen the impact to current users on the platform.
