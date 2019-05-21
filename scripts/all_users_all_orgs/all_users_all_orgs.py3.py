@@ -109,7 +109,10 @@ def add_user_to_group(user, group):
 def worker():
     while True:
         item = queue.get()
-        add_user_to_group(item[0], item[1])
+        try:
+            add_user_to_group(item[0], item[1])
+        except Exception as e:
+            print("Exception encountered:", e)
         queue.task_done()
 
 
