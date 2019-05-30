@@ -6,3 +6,4 @@ secrets
 *tfstate.backup
 *tf2
 !/terraform/aws-ha/keys
+gitlab/
