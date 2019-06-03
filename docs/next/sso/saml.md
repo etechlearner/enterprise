@@ -1,3 +1,11 @@
+---
+layout: page
+parent: SSO
+title: SAML Integration
+nav_order: 4
+nav_no_fold: true
+---
+
 # Configuring SAML Authentication
 
 To configure Stoplight to use SAML authentication, follow the instructions

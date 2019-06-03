@@ -1,3 +1,10 @@
+---
+layout: page
+parent: Security
+title: Rotating Security Credentials
+nav_order: 3
+---
+
 # Rotating Credentials
 
 Rotating credentials for the Stoplight platform is a simple and quick method for

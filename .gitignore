@@ -7,3 +7,7 @@ secrets
 *tf2
 !/terraform/aws-ha/keys
 gitlab/
+.sass-cache/
+_site/
+*rpm
+docker-rpms/

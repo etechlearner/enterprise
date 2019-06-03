@@ -1,1 +1,8 @@
-theme: jekyll-theme-midnight
+markdown: kramdown
+theme: just-the-docs
+remote_theme: pmarsceill/just-the-docs
+# color_scheme: "dark"
+title: "Stoplight Enterprise"
+aux_links:
+  "Find Supporting Material on Github":
+    - "https://github.com/stoplightio/enterprise"

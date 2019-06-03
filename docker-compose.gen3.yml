@@ -1,0 +1,60 @@
+#
+# NOTE - This file was designed for testing purposes only, and is not suitable
+# for a production deployment.
+#
+
+version: "3.5"
+networks:
+  stoplight:
+    name: stoplight
+    driver: bridge
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./stoplight-data/postgres:/var/lib/postgresql:Z
+    environment:
+      # this has been randomized for security - this is not a real password
+      - POSTGRES_PASSWORD=fae7OW3je6ji3ahghoohigh0oboLooki
+      - POSTGRES_USER=stoplight
+      - PGDATA=/var/lib/postgresql/data
+      # - DB_EXTENSION=pg_trgm
+      # - PG_TRUST_LOCALNET=true
+    networks:
+      - stoplight
+
+  backend:
+    container_name: backend.stoplight.local
+    build:
+      context: ./docker/backend
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "4060:4060"
+    environment:
+      - NODE_ENV=production
+      - SL_POSTGRES_URL=postgres://stoplight:fae7OW3je6ji3ahghoohigh0oboLooki@postgres:5432/stoplight
+      - SL_APP_SECRET=ahFo3AWaqueerahzum0equ8Que1uc1wo
+    networks:
+      - stoplight
+
+  frontend:
+    container_name: frontend.stoplight.local
+    build:
+      context: ./docker/frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "4050:4050"
+    environment:
+      - NODE_ENV=production
+      - SL_API_URL=http://backend.stoplight.local:4060
+    networks:
+      - stoplight

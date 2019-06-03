@@ -1,3 +1,11 @@
+---
+layout: page
+parent: SSO
+title: LDAP Integration
+nav_order: 3
+nav_no_fold: true
+---
+
 # Enabling LDAP SSO in Stoplight
 
 To enable LDAP in Stoplight, _both_ the **API** and **app** component
