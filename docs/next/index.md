@@ -7,6 +7,8 @@ permalink: next
 nav_no_fold: true
 ---
 
+# Stoplight Next
+
 ## Getting Setup
 
 The guide below covers setting up the [Stoplight Next platform](https://next.stoplight.io) in a local/test environment using the `docker-compose` tool. This guide assumes you already are familiar with Docker and have been provided access to the Stoplight Docker registry by the Stoplight Support team.
