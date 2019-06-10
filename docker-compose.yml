@@ -65,7 +65,7 @@ services:
 
   api:
     container_name: api.stoplight.local
-    image: quay.io/stoplight/api:4.9.8
+    image: quay.io/stoplight/api:4.10.1
     restart: always
     depends_on:
       - gitlab
@@ -93,7 +93,7 @@ services:
 
   app:
     container_name: app.stoplight.local
-    image: quay.io/stoplight/app:4.9.4
+    image: quay.io/stoplight/app:4.10.2
     restart: always
     ports:
       - "3100:3100"
@@ -110,7 +110,7 @@ services:
 
   prism:
     container_name: prism.stoplight.local
-    image: quay.io/stoplight/prism-multi:f32d0e5
+    image: quay.io/stoplight/prism-multi:e2471b5
     restart: always
     ports:
       - "4050:4050"
@@ -123,7 +123,7 @@ services:
 
   pubs:
     container_name: pubs.stoplight.local
-    image: quay.io/stoplight/pubs:0.2.1
+    image: quay.io/stoplight/pubs:0.2.2
     restart: always
     depends_on:
       - api
