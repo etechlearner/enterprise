@@ -48,7 +48,7 @@ services:
 
   gitlab:
     container_name: gitlab
-    image: quay.io/stoplight/gitlab:v11.0.6
+    image: quay.io/stoplight/gitlab:b3c77b1
     depends_on:
       - postgres
       - redis
@@ -65,7 +65,7 @@ services:
 
   api:
     container_name: api.stoplight.local
-    image: quay.io/stoplight/api:4.9.8
+    image: quay.io/stoplight/api:4.10.1
     restart: always
     depends_on:
       - gitlab
@@ -90,10 +90,11 @@ services:
       - SL_PUBS_ADMIN_URL=http://pubs.stoplight.local:9098
       - SL_REDIS_URL=redis://:toh4ahcuXoo1Pa4aeth2rai7thux@redis:6379
       - SL_COOKIE_DOMAIN=stoplight.local
+      - SL_SSO_LDAP_CONFIG='{"server":{"url":"ldap://ldap.dojo-int.stoplight-dev.com:389","bindDN":"cn=admin,dc=example,dc=org","bindCredentials":"admin","searchBase":"dc=example,dc=org","searchFilter":"(uid=``)"}}'
 
   app:
     container_name: app.stoplight.local
-    image: quay.io/stoplight/app:4.9.4
+    image: quay.io/stoplight/app:4.10.2
     restart: always
     ports:
       - "3100:3100"
@@ -106,11 +107,12 @@ services:
       - SL_API_HOST=http://api.stoplight.local:3030
       - SL_PRISM_HOST=http://prism.stoplight.local:4050
       - SL_PUBS_INGRESS=ingress.pubs.stoplight.local:9080
-      - SL_PUBS_HOST=pubs.stoplight.local:9080
+      - SL_PUBS_HOST=pubs.stoplight.local
+      - SL_LOGIN_PATH='/sso/global/ldap/login'
 
   prism:
     container_name: prism.stoplight.local
-    image: quay.io/stoplight/prism-multi:f32d0e5
+    image: quay.io/stoplight/prism-multi:e2471b5
     restart: always
     ports:
       - "4050:4050"
@@ -123,7 +125,7 @@ services:
 
   pubs:
     container_name: pubs.stoplight.local
-    image: quay.io/stoplight/pubs:0.2.1
+    image: quay.io/stoplight/pubs:0.2.2
     restart: always
     depends_on:
       - api
@@ -144,7 +146,7 @@ services:
       - PUBS_SSL_ENABLED=false
       - PUBS_SL_API_HOST=http://api.stoplight.local:3030
       # set API token as per the readme
-      - PUBS_SL_API_TOKEN=abc123
+      - PUBS_SL_API_TOKEN=8a3EJ6Jra34sa1wGzHzt
       - PUBS_ADMIN_BIND=0.0.0.0:9098
       - PUBS_DATA_DIR=/var/lib/pubs
       # enable SSL for admin port

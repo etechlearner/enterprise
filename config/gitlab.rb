@@ -5,7 +5,7 @@
 
 # Be sure to set to the URL of the Stoplight application front-end, _not_ the
 # URL for GitLab
-external_url 'http://localhost:3100'
+external_url 'http://fakehost:3999'
 
 # initial root user password, only valid on first boot
 gitlab_rails['initial_root_password'] = "password"
