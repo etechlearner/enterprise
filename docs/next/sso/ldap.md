@@ -23,7 +23,7 @@ component.
 ## App
 
 For the Stoplight app component, set the following variable in the process
-environment:
+[config/environment](/next/app/configuration):
 
 ```bash
 SL_LOGIN_PATH='/sso/global/ldap/login'
@@ -44,7 +44,7 @@ Once set, be sure to restart the process.
 ## API
 
 For the Stoplight API component, set the following variable in the process
-environment:
+[config/environment](/next/api/configuration):
 
 ```bash
 SL_SSO_LDAP_CONFIG='{"server":{"url":"ldap://localhost:389","bindDN":"cn=admin,dc=example,dc=org","bindCredentials":"machu_pichu","searchBase":"dc=example,dc=org","searchFilter":"(uid={{username}})"}}'

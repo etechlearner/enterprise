@@ -21,7 +21,7 @@ below.
 ## API
 
 To configure Stoplight to use SAML for user authentication, add the following
-variable to the Stoplight API configuration/environment:
+variable to the [Stoplight API configuration/environment](/next/api/configuration):
 
 ```bash
 SL_SSO_ENTRYPOINT="https://your-saml-server.example.com/..."
@@ -43,7 +43,7 @@ sudo systemctl restart stoplight-api
 ## App
 
 To configure Stoplight to use SAML for user authentication, add the following
-variable to the Stoplight App configuration/environment:
+variable to the [Stoplight App configuration/environment](/next/app/configuration):
 
 ```bash
 SL_SSO_ENTRYPOINT="https://stoplight-api.example.com:3030/sso/global/saml/login"
