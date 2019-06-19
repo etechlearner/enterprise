@@ -1,13 +1,18 @@
 ---
 layout: page
-parent: Components
-title: Exporter [deprecated]
-nav_order: 4
+parent: Overview
+title: Exporter
+nav_order: 7
+tag: DEPRECATED
+permalink: next/exporter
+grand_parent: Stoplight Next
 ---
 
-> The Exporter component was deprecated with the v4.7 release of Stoplight Next.
-
 # The Stoplight Exporter
+
+<blockquote style="background-color: #ffa8c0; color: black !important;">
+<b>NOTE</b> This component was deprecated with the v4.7 release of Stoplight Next, so it is not needed with a stable production deployment.
+</blockquote>
 
 The **Exporter** component de-references JSON specifications to ensure all
 referenced files and external data sources are resolved when needed.
@@ -53,17 +58,17 @@ To install NodeJS, run the following commands:
 sudo yum remove nodejs npm -y
 
 # install nodejs
-sudo rpm -Uvh https://rpm.nodesource.com/pub_8.x/el/7/x86_64/nodejs-8.9.4-1nodesource.x86_64.rpm
+sudo rpm -Uvh https://rpm.nodesource.com/pub_8.x/el/7/x86_64/nodejs-8.16.0-1nodesource.x86_64.rpm
 ```
 
 Once the installation has completed, verify the version installed with the command:
 
 ```bash
 $ node --version
-v8.9.4
+v8.16.0
 ```
 
-If you do not see a version starting `v8.9`, contact Stoplight support for assistance.
+If you do not see a version starting `v8.16`, contact Stoplight support for assistance.
 
 #### Setting up the Package Repository
 

@@ -1,8 +1,11 @@
 ---
 layout: page
-parent: Components
+parent: Overview
 title: Prism
-nav_order: 10
+grand_parent: Stoplight Next
+nav_order: 4
+permalink: next/prism
+tag: MOCK/TEST
 ---
 
 # Prism

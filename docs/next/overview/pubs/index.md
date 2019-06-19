@@ -1,8 +1,11 @@
 ---
 layout: page
-parent: Components
+parent: Overview
 title: Hubs Server
-nav_order: 7
+nav_order: 5
+grand_parent: Stoplight Next
+tag: DOCS
+permalink: next/pubs
 ---
 
 # Hubs Server (Pubs)

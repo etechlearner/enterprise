@@ -18,7 +18,6 @@
   }
 
   ol {
-    list-style-type: none;
     counter-reset: step-counter;
 
     > li {
@@ -47,19 +46,6 @@
             counter-increment: sub-counter;
           }
         }
-      }
-    }
-  }
-
-  ul {
-    list-style: none;
-
-    > li {
-      &::before {
-        position: absolute;
-        margin-left: -1.4em;
-        color: $grey-dk-000;
-        content: "•";
       }
     }
   }

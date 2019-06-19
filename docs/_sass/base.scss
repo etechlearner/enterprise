@@ -92,9 +92,9 @@ code {
 
 blockquote {
   margin-left: 0px;
-  background-color: #ae81f3;
+  background-color: #976cdc;
   padding: 1rem;
-  color: white;
+  color: white !important;
   border-radius: 5px 5px 5px 5px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
@@ -106,6 +106,29 @@ blockquote > p {
 
 blockquote > p > code {
   color: black !important;
+}
+
+blockquote > ul {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 0px;
+}
+
+blockquote > h4 {
+  color: white !important;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 20px !important;
+}
+
+blockquote > h2 {
+  color: white !important;
+  margin-top: 0px;
+}
+
+blockquote > p > a {
+  color: white !important;
+  font-weight: 700;
 }
 
 figure {
@@ -127,4 +150,34 @@ hr {
   margin: $sp-6 0;
   background-color: $border-color;
   border: 0;
+}
+
+// .section-nav {
+//   position: fixed;
+//   right: 0;
+// }
+.section-nav:before {
+  font-size: 16px;
+  content: "On This Page";
+  line-height: 3;
+  font-style: italic;
+}
+.section-nav {
+  font-size: 12px;
+  line-height: 1.75rem;
+  list-style-type: none !important;
+}
+
+.toc-h3 {
+  border-bottom: 1px solid #dae1e7;
+}
+
+.page-tag {
+  padding: 5px;
+  font-size: 10px;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  float: right;
+  color: white;
 }

@@ -1,13 +1,19 @@
 ---
 layout: default
-title: API Design Manager
-nav_order: 2
+title: API Design Manager (beta)
+nav_order: 4
 has_children: true
 permalink: design-manager
-nav_no_fold: true
 ---
 
-# API Design Management Platform
+> ## Hey there!
+>
+> The API Design Manager is currently in a closed beta, so it is not generally
+> available yet. If you are a current Stoplight customer and would like to get
+> early access to the new functionality, please get in touch with us at
+> [customers@stoplight.io](mailto:customers@stoplight.io).
+
+# API Design Manager
 
 Stoplight's API Design Manager is a next-generation offering for managing API
 designs and assets at any scale.

@@ -1,11 +1,14 @@
 ---
 layout: page
-parent: Components
-title: Jobs Service
-nav_order: 8
+parent: Overview
+title: Jobs Server
+nav_order: 6
+tag: DOCS
+grand_parent: Stoplight Next
+permalink: next/tasker
 ---
 
-# Jobs Service (Tasker)
+# Jobs Server (Tasker)
 
 The **Tasker** component runs scheduled and on-demand tasks for the Stoplight platform.
 

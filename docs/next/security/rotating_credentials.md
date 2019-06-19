@@ -3,6 +3,8 @@ layout: page
 parent: Security
 title: Rotating Security Credentials
 nav_order: 3
+permalink: next/security/rotating_credentials
+grand_parent: Stoplight Next
 ---
 
 # Rotating Credentials

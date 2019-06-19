@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Installation
-parent: API Design Manager
+parent: API Design Manager (beta)
 nav_order: 5
 has_children: true
 ---

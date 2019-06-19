@@ -4,6 +4,8 @@ parent: SSO
 title: SAML Integration
 nav_order: 4
 nav_no_fold: true
+permalink: next/sso/saml
+grand_parent: Stoplight Next
 ---
 
 # Configuring SAML Authentication

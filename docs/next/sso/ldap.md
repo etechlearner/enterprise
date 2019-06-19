@@ -4,13 +4,21 @@ parent: SSO
 title: LDAP Integration
 nav_order: 3
 nav_no_fold: true
+permalink: next/sso/ldap
+grand_parent: Stoplight Next
 ---
+
+{% raw %}
 
 # Enabling LDAP SSO in Stoplight
 
 To enable LDAP in Stoplight, _both_ the **API** and **app** component
 configurations must be updated. Review the instructions below for each
 component.
+
+> Please note, Stoplight's LDAP integration does not currently use directory
+> data for determining group/organization membership. Group/organization
+> membership should be managed through the Stoplight application itself.
 
 ## App
 
@@ -95,3 +103,4 @@ This error is referring specifically to the JSON syntax of the
 
 To resolve, double check the JSON _syntax_ (and whitespace, escaping, etc) in the
 variable itself and restart the process.
+{% endraw %}
