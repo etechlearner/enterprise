@@ -10,6 +10,63 @@ permalink: next/gitlab/configuration
 
 # Configuration
 
+The below sample configuration can be used as a starting point for the GitLab
+configuration:
+
+```rb
+# Be sure to set to the URL of the Stoplight application front-end, _not_ the
+# URL for GitLab
+external_url 'http://localhost:3100'
+
+# initial root user password, only valid on first boot
+gitlab_rails['initial_root_password'] = "password"
+
+# nginx configuration
+nginx['enable'] = true
+nginx['listen_port'] = 8000
+nginx['listen_addresses'] = ['0.0.0.0']
+nginx['listen_https'] = false
+nginx['proxy_set_headers'] = {
+  "X-Forwarded-Proto" => "http",
+  "X-Forwarded-Ssl" => "off"
+}
+
+# redis configuration
+redis['enable'] = true
+redis['bind'] = '0.0.0.0'
+redis['port'] = 6379
+
+# postgresql configuration
+# if not using the embedded database, set postgresql['enable'] to false
+postgresql['enable'] = true
+postgresql['listen_address'] = '0.0.0.0'
+postgresql['port'] = 5432
+
+# if not using the embedded postgres, uncomment the lines below
+# gitlab_rails['db_username'] = "gitlab"
+# gitlab_rails['db_password'] = nil
+# gitlab_rails['db_host'] = nil
+# gitlab_rails['db_port'] = 5432
+
+# !! remove this in a production environment
+postgresql['custom_pg_hba_entries'] = {
+    gitlab: [
+        {
+        type: 'host',
+        database: 'all',
+        user: 'all',
+        cidr: '0.0.0.0/0',
+        method: 'trust'
+        }
+    ]
+}
+```
+
+> **NOTE**, the `postgresql['custom_pg_hba_entries']` variable disables
+> authentication/authorization for the database when the embedded PostgreSQL
+> database is active. Be sure to remove this entry once the database has been
+> configured with the proper user permissions.
+
 ## Location
 
 ### RPM
