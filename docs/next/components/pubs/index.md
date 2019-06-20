@@ -1,6 +1,6 @@
 ---
 layout: page
-parent: Overview
+parent: Components
 title: Hubs Server
 nav_order: 5
 grand_parent: Stoplight Next

@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Overview
+title: Components
 parent: Stoplight Next
-nav_order: 1
+nav_order: 5
 has_children: true
-permalink: next/overview
+permalink: next/components
 ---
 
 # Stoplight Next Architecture Overview

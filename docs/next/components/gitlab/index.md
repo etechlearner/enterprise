@@ -1,6 +1,6 @@
 ---
 layout: page
-parent: Overview
+parent: Components
 grand_parent: Stoplight Next
 title: GitLab
 nav_order: 1

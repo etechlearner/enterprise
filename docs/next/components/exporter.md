@@ -1,6 +1,6 @@
 ---
 layout: page
-parent: Overview
+parent: Components
 title: Exporter
 nav_order: 7
 tag: DEPRECATED

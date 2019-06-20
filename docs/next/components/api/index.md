@@ -1,6 +1,6 @@
 ---
 layout: page
-parent: Overview
+parent: Components
 grand_parent: Stoplight Next
 title: API
 nav_order: 2

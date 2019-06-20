@@ -1,6 +1,6 @@
 ---
 layout: page
-parent: Overview
+parent: Components
 title: Jobs Server
 nav_order: 6
 tag: DOCS

@@ -1,6 +1,6 @@
 ---
 layout: page
-parent: Overview
+parent: Components
 grand_parent: Stoplight Next
 title: App
 nav_order: 3

@@ -1,6 +1,6 @@
 ---
 layout: page
-parent: Overview
+parent: Components
 title: Prism
 grand_parent: Stoplight Next
 nav_order: 4
