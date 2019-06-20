@@ -39,3 +39,18 @@ using the command:
 ```bash
 sudo yum install stoplight-gitlab -y
 ```
+
+## Running
+
+To start the GitLab server, run the command:
+
+```bash
+sudo systemctl enable stoplight-gitlab
+sudo systemctl start stoplight-gitlab
+```
+
+Once started, you can see the status of the service using the command:
+
+```bash
+sudo systemctl status stoplight-gitlab
+```
