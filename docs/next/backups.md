@@ -2,7 +2,7 @@
 layout: page
 title: Backups
 parent: Stoplight Next
-nav_order: 20
+nav_order: 25
 permalink: next/backups
 toc: true
 ---
