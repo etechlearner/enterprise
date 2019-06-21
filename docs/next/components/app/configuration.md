@@ -113,3 +113,14 @@ The `SL_PUBS_INGRESS` variable is the URL to the Stoplight Pubs instance admin A
 ```
 SL_PUBS_INGRESS="https://pubs.example.com:9098"
 ```
+
+### SL_DISABLE_PRISM_SUBDOMAINS
+
+The `SL_DISABLE_PRISM_SUBDOMAINS` variable is used to disable Prism's mock
+server sub-domain logic. This variable is usually only necessary when Stoplight
+is deployed into an environment that does not have support for wildcard DNS
+hostnames.
+
+```
+SL_DISABLE_PRISM_SUBDOMAINS=true
+```
