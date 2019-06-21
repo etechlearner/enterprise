@@ -65,7 +65,7 @@ services:
 
   api:
     container_name: api.stoplight.local
-    image: quay.io/stoplight/api:4.10.1
+    image: quay.io/stoplight/api:4.9.6-alpha.5
     restart: always
     depends_on:
       - gitlab
@@ -90,10 +90,11 @@ services:
       - SL_PUBS_ADMIN_URL=http://pubs.stoplight.local:9098
       - SL_REDIS_URL=redis://:toh4ahcuXoo1Pa4aeth2rai7thux@redis:6379
       - SL_COOKIE_DOMAIN=stoplight.local
+      - SL_SSO_ENTRYPOINT=http://keycloak.stoplight-dev.com/auth/realms/master/protocol/saml
 
   app:
     container_name: app.stoplight.local
-    image: quay.io/stoplight/app:4.10.2
+    image: quay.io/stoplight/app:4.10.2-alpha.20
     restart: always
     ports:
       - "3100:3100"
@@ -107,65 +108,63 @@ services:
       - SL_PRISM_HOST=http://prism.stoplight.local:4050
       - SL_PUBS_INGRESS=ingress.pubs.stoplight.local:9080
       - SL_PUBS_HOST=pubs.stoplight.local:9080
-
-  prism:
-    container_name: prism.stoplight.local
-    image: quay.io/stoplight/prism-multi:e2471b5
-    restart: always
-    ports:
-      - "4050:4050"
-    networks:
-      - backend
-      - frontend
-    environment:
-      - SL_API_HOST=http://api.stoplight.local:3030
-      - SL_HOST=http://%sprism.stoplight.local
-
-  pubs:
-    container_name: pubs.stoplight.local
-    image: quay.io/stoplight/pubs:0.2.2
-    restart: always
-    depends_on:
-      - api
-    ports:
-      - "9098:9098"
-      - "9080:80"
-    volumes:
-      - ./stoplight-data/pubs:/var/lib/pubs
-      # optionally configure via file
-      # - ./config/pubs.yml:/etc/pubs/pubs.yml
-    networks:
-      - backend
-      - frontend
-    environment:
-      - PUBS_HTTP_BIND=0.0.0.0:80
-      - PUBS_HTTPS_BIND=0.0.0.0:443
-      # set to true to enable LetsEncrypt automatic SSL cert provisioning
-      - PUBS_SSL_ENABLED=false
-      - PUBS_SL_API_HOST=http://api.stoplight.local:3030
-      # set API token as per the readme
-      - PUBS_SL_API_TOKEN=abc123
-      - PUBS_ADMIN_BIND=0.0.0.0:9098
-      - PUBS_DATA_DIR=/var/lib/pubs
-      # enable SSL for admin port
-      # - PUBS_ADMIN_SSL_ENABLED=true
-      # - PUBS_ADMIN_SSL_CERT_PATH=/etc/ssl/pubs-admin.cert
-      # - PUBS_ADMIN_SSL_KEY_PATH=/etc/ssl/pubs-admin.key
-
-  tasker:
-    container_name: tasker.stoplight.local
-    image: quay.io/stoplight/tasker:0.2.1-omni
-    restart: always
-    depends_on:
-      - redis
-    command: |
-      --verbose
-    ports:
-      - "9432:9432"
-    environment:
-      - TASKER_MODE=shell
-      - TASKER_REDIS_HOSTPORT=redis://redis:6379
-      - TASKER_REDIS_PASSWORD=toh4ahcuXoo1Pa4aeth2rai7thux
-      - TASKER_HTTP_BIND=0.0.0.0:9432
-    networks:
-      - backend
+      - SL_SSO_ENTRYPOINT=http://api.stoplight.local:3030/sso/global/saml/login
+  # prism:
+  #   container_name: prism.stoplight.local
+  #   image: quay.io/stoplight/prism-multi:e2471b5
+  #   restart: always
+  #   ports:
+  #     - "4050:4050"
+  #   networks:
+  #     - backend
+  #     - frontend
+  #   environment:
+  #     - SL_API_HOST=http://api.stoplight.local:3030
+  #     - SL_HOST=http://%sprism.stoplight.local
+  # pubs:
+  #   container_name: pubs.stoplight.local
+  #   image: quay.io/stoplight/pubs:0.2.2
+  #   restart: always
+  #   depends_on:
+  #     - api
+  #   ports:
+  #     - "9098:9098"
+  #     - "9080:80"
+  #   volumes:
+  #     - ./stoplight-data/pubs:/var/lib/pubs
+  #     # optionally configure via file
+  #     # - ./config/pubs.yml:/etc/pubs/pubs.yml
+  #   networks:
+  #     - backend
+  #     - frontend
+  #   environment:
+  #     - PUBS_HTTP_BIND=0.0.0.0:80
+  #     - PUBS_HTTPS_BIND=0.0.0.0:443
+  #     # set to true to enable LetsEncrypt automatic SSL cert provisioning
+  #     - PUBS_SSL_ENABLED=false
+  #     - PUBS_SL_API_HOST=http://api.stoplight.local:3030
+  #     # set API token as per the readme
+  #     - PUBS_SL_API_TOKEN=abc123
+  #     - PUBS_ADMIN_BIND=0.0.0.0:9098
+  #     - PUBS_DATA_DIR=/var/lib/pubs
+  #     # enable SSL for admin port
+  #     # - PUBS_ADMIN_SSL_ENABLED=true
+  #     # - PUBS_ADMIN_SSL_CERT_PATH=/etc/ssl/pubs-admin.cert
+  #     # - PUBS_ADMIN_SSL_KEY_PATH=/etc/ssl/pubs-admin.key
+  # tasker:
+  #   container_name: tasker.stoplight.local
+  #   image: quay.io/stoplight/tasker:0.2.1-omni
+  #   restart: always
+  #   depends_on:
+  #     - redis
+  #   command: |
+  #     --verbose
+  #   ports:
+  #     - "9432:9432"
+  #   environment:
+  #     - TASKER_MODE=shell
+  #     - TASKER_REDIS_HOSTPORT=redis://redis:6379
+  #     - TASKER_REDIS_PASSWORD=toh4ahcuXoo1Pa4aeth2rai7thux
+  #     - TASKER_HTTP_BIND=0.0.0.0:9432
+  #   networks:
+  #     - backend
