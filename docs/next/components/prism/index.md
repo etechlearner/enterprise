@@ -4,6 +4,7 @@ parent: Components
 title: Prism
 grand_parent: Stoplight Next
 nav_order: 4
+has_children: true
 permalink: next/prism
 tag: MOCK/TEST
 ---
