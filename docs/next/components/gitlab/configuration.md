@@ -14,7 +14,8 @@ The below sample configuration can be used as a starting point for the GitLab
 configuration:
 
 ```rb
-# Be sure to set to the URL of the Stoplight application front-end, _not_ the
+# ! Replace this with the full URL to where Stoplight is being hosted. Be sure to
+# set to the URL of the Stoplight application front-end, _not_ the
 # URL for GitLab
 external_url 'http://localhost:3100'
 
@@ -66,6 +67,14 @@ postgresql['custom_pg_hba_entries'] = {
 > authentication/authorization for the database when the embedded PostgreSQL
 > database is active. Be sure to remove this entry once the database has been
 > configured with the proper user permissions.
+
+After any configuration changes are made, run:
+
+```shell
+sudo gitlab-ctl reconfigure
+```
+
+In order for the configuration changes to be persisted to the runtime.
 
 ## Location
 
