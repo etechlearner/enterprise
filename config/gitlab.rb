@@ -5,6 +5,9 @@
 
 # Be sure to set to the URL of the Stoplight application front-end, _not_ the
 # URL for GitLab
+#
+# NOTE, even though there is a port specified here, it is not the port actually
+# being listened on. See `nginx['listen_port']` below for more information.
 external_url 'http://localhost:3100'
 
 # initial root user password, only valid on first boot
@@ -14,28 +17,28 @@ gitlab_rails['initial_root_password'] = "password"
 #   'DATABASE_URL' => 'postgresql://stoplight:stoplight@postgres:5432/stoplight_development'
 # }
 
-redis['enable'] = false
-# redis['enable'] = true
-# redis['bind'] = '0.0.0.0'
-# redis['port'] = 6379
+# redis['enable'] = false
+redis['enable'] = true
+redis['bind'] = '0.0.0.0'
+redis['port'] = 6379
 
-gitlab_rails['redis_host'] = "redis"
-gitlab_rails['redis_port'] = 6379
-gitlab_rails['redis_database'] = 0
-gitlab_rails['redis_password'] = "toh4ahcuXoo1Pa4aeth2rai7thux"
+# gitlab_rails['redis_host'] = "redis"
+# gitlab_rails['redis_port'] = 6379
+# gitlab_rails['redis_database'] = 0
+# gitlab_rails['redis_password'] = "toh4ahcuXoo1Pa4aeth2rai7thux"
 
-postgresql['enable'] = false
-# postgresql['enable'] = true
-# postgresql['listen_address'] = '0.0.0.0'
-# postgresql['port'] = 5432
+# postgresql['enable'] = false
+postgresql['enable'] = true
+postgresql['listen_address'] = '0.0.0.0'
+postgresql['port'] = 5432
 # postgresql['data_dir'] = "/var/opt/gitlab/postgresql/data"
 
-gitlab_rails['db_database'] = "stoplight"
-gitlab_rails['db_host'] = "postgres"
-gitlab_rails['db_port'] = 5432
-gitlab_rails['db_username'] = "stoplight"
-gitlab_rails['db_password'] = "veetah9pum9ciesee0aiWeegoh3ve2Ya"
-gitlab_rails['db_sslmode'] = nil
+# gitlab_rails['db_database'] = "gitlabhq_production"
+# gitlab_rails['db_host'] = "localhost"
+# gitlab_rails['db_port'] = 5432
+# gitlab_rails['db_username'] = "gitlab"
+# gitlab_rails['db_password'] = "veetah9pum9ciesee0aiWeegoh3ve2Ya"
+# gitlab_rails['db_sslmode'] = nil
 
 nginx['enable'] = true
 # set nginx listening port explicitly, otherwise it will be set automatically by
@@ -48,14 +51,14 @@ nginx['proxy_set_headers'] = {
   "X-Forwarded-Ssl" => "off"
 }
 
-# postgresql['custom_pg_hba_entries'] = {
-#     gitlab: [
-#         {
-#         type: 'host',
-#         database: 'all',
-#         user: 'all',
-#         cidr: '0.0.0.0/0',
-#         method: 'trust'
-#         }
-#     ]
-# }
+postgresql['custom_pg_hba_entries'] = {
+    gitlab: [
+        {
+        type: 'host',
+        database: 'all',
+        user: 'all',
+        cidr: '0.0.0.0/0',
+        method: 'trust'
+        }
+    ]
+}
