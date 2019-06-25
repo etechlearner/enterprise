@@ -2,7 +2,7 @@
 layout: page
 parent: Components
 title: Exporter
-nav_order: 7
+nav_order: 8
 tag: DEPRECATED
 permalink: next/exporter
 grand_parent: Stoplight Next
