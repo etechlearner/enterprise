@@ -18,8 +18,4 @@ permalink: design-manager
 Stoplight's API Design Manager is a next-generation offering for managing API
 designs and assets at any scale.
 
-![Design Manager Overview](/assets/images/design-manager-overview.png)
-
-## Component Layout
-
 ![Design Manager Overview](/assets/images/design-manager-breakdown.png)
