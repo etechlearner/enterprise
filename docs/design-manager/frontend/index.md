@@ -2,7 +2,7 @@
 layout: default
 title: Frontend
 nav_order: 5
-parent: Installation
+parent: RPM Installation
 grand_parent: API Design Manager (beta)
 permalink: design-manager/installation/frontend
 nav_no_fold: true

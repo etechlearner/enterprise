@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Installation
+title: RPM Installation
 parent: API Design Manager (beta)
 nav_order: 5
 has_children: true
@@ -8,10 +8,8 @@ has_children: true
 
 # Installation
 
-The server-side component of the Stoplight API Design Manager has two parts:
+The Stoplight API Design Manager has two components:
 
-- The **front-end**, which serves the Stoplight user-interface
+- The **application**, which serves the Stoplight user-interface
 
-- The **back-end**, which is the backing API for the Stoplight user-interface
-
-Installation and configuration for both components is linked below.
+- The **API**, which is the backing API for the application, ultimately writing data to the database
