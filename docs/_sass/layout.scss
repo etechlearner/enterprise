@@ -70,9 +70,7 @@
 
   @include mq(lg) {
     padding-left: $gutter-spacing;
-    margin-left: calc(
-      (100% - #{$nav-width + $content-width}) / 2 + #{$nav-width}
-    );
+    margin-left: calc((100% - #{$nav-width + $content-width}) / 2 + #{$nav-width});
   }
 }
 
@@ -96,7 +94,7 @@
       height: 60px;
       padding-top: $sp-4;
       padding-bottom: $sp-4;
-      border-bottom: $border $border-color;
+      border-bottom: $border #000;
     }
   }
 }
@@ -147,4 +145,8 @@ body {
     justify-self: end;
     background-color: $sidebar-color;
   }
+}
+
+.side-bar a {
+  color: white;
 }

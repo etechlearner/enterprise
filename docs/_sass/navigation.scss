@@ -15,7 +15,6 @@
     z-index: 101;
     height: 60px;
     padding-top: $sp-4;
-    border-bottom: $border $border-color;
   }
 }
 
@@ -49,9 +48,7 @@
     }
 
     &.active {
-      &::before {
-        color: $body-text-color;
-      }
+      color: #fff;
     }
   }
 }
@@ -81,8 +78,8 @@
   padding-bottom: $sp-1;
 
   &.active {
-    font-weight: 600;
-    color: $body-heading-color;
+    font-weight: 700;
+    color: #fff;
     text-decoration: none;
   }
 }
@@ -96,6 +93,7 @@
   &.nav-open {
     display: block;
   }
+
   @include mq(md) {
     display: block;
   }

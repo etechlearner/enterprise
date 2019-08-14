@@ -68,6 +68,10 @@ a {
   text-decoration: none;
 }
 
+.main-content a {
+  font-weight: 500;
+}
+
 a:not([class]) {
   text-decoration: none;
   background-image: linear-gradient($border-color 0%, $border-color 100%);
@@ -76,10 +80,8 @@ a:not([class]) {
   background-size: 1px 1px;
 
   &:hover {
-    background-image: linear-gradient(
-      rgba($link-color, 0.45) 0%,
-      rgba($link-color, 0.45) 100%
-    );
+    background-image: linear-gradient(rgba($link-color, 0.45) 0%,
+        rgba($link-color, 0.45) 100%);
     background-size: 1px 1px;
   }
 }
@@ -92,7 +94,7 @@ code {
 
 blockquote {
   margin-left: 0px;
-  background-color: #976cdc;
+  background-color: #6c94dc;
   padding: 1rem;
   color: white !important;
   border-radius: 5px 5px 5px 5px;
@@ -100,33 +102,33 @@ blockquote {
     inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 
-blockquote > p {
+blockquote>p {
   margin-bottom: 0px;
 }
 
-blockquote > p > code {
+blockquote>p>code {
   color: black !important;
 }
 
-blockquote > ul {
+blockquote>ul {
   padding-top: 1rem;
   padding-bottom: 1rem;
   margin-bottom: 0px;
 }
 
-blockquote > h4 {
+blockquote>h4 {
   color: white !important;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   font-size: 20px !important;
 }
 
-blockquote > h2 {
+blockquote>h2 {
   color: white !important;
   margin-top: 0px;
 }
 
-blockquote > p > a {
+blockquote>p>a {
   color: white !important;
   font-weight: 700;
 }
@@ -162,6 +164,7 @@ hr {
   line-height: 3;
   font-style: italic;
 }
+
 .section-nav {
   font-size: 12px;
   line-height: 1.75rem;
