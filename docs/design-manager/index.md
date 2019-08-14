@@ -1,6 +1,6 @@
 ---
 layout: default
-title: API Design Manager (beta)
+title: API Design Manager
 nav_order: 4
 has_children: true
 permalink: design-manager

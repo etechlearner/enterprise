@@ -3,7 +3,7 @@ layout: default
 title: Configuring Bitbucket Server
 nav_order: 10
 has_children: false
-parent: API Design Manager (beta)
+parent: API Design Manager
 permalink: design-manager/configuring-bitbucket-server
 ---
 
@@ -11,7 +11,7 @@ permalink: design-manager/configuring-bitbucket-server
 
 Once you have logged into Stoplight,
 the first thing you'll need to do is create an "External Service" for any authentication or source control providers.
-This guide covers configuring the Bitbucket Server.
+This guide covers configuring the Bitbucket Server External Service.
 
 ## Navigating to the Site Administration Screen
 

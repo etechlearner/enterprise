@@ -1,7 +1,7 @@
 ---
 layout: default
 title: RPM Installation
-parent: API Design Manager (beta)
+parent: API Design Manager
 nav_order: 5
 has_children: true
 ---

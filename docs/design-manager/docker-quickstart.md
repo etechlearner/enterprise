@@ -3,7 +3,7 @@ layout: default
 title: Docker Quick Start
 nav_order: 2
 has_children: false
-parent: API Design Manager (beta)
+parent: API Design Manager
 permalink: design-manager/docker-quick-start
 ---
 
@@ -62,7 +62,7 @@ To start the Stoplight process using `docker run`:
 
 ```bash
 docker run -d --rm --name stoplight-platform \
-    -p 8080 \
+    -p 8080:8080 \
     -v $(pwd)/stoplight-data:/home/node/postgresql
     -e SL_API_URL=https://stoplight.example.com/api \
     quay.io/stoplight/platform
@@ -71,6 +71,8 @@ docker run -d --rm --name stoplight-platform \
 Note:
 
 - All data used by Stoplight is stored within the PostgreSQL data directory located at `/home/node/postgresql`, so be sure to include the `-v` option referenced above to ensure data is persisted outside the container.
+
+- The master process inside the container runs as the container's `nginx` user, which has a UID of `101`. Make sure that this user has write permissions to the mounted volume (specified with `-v`).
 
 ### Enabling SSL
 
@@ -87,7 +89,7 @@ This makes the final `docker run` command:
 ```bash
 docker run -d --rm --name stoplight-platform \
     -v $(pwd)/stoplight-data:/home/node/postgresql
-    -p 8443 \                                                           # * required for SSL
+    -p 8443:8443 \                                                      # * required for SSL
     -e SL_ENABLE_SSL=true \                                             # *
     -e SL_HOSTNAME=certhostname.example.com \                           # *
     -e SL_API_URL=https://certhostname.example.com/api \

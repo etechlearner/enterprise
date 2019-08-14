@@ -3,7 +3,7 @@ layout: default
 title: Backend
 nav_order: 1
 parent: RPM Installation
-grand_parent: API Design Manager (beta)
+grand_parent: API Design Manager
 permalink: design-manager/installation/backend
 nav_no_fold: true
 ---
