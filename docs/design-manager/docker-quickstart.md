@@ -118,3 +118,18 @@ disable the included PostgreSQL Server and, instead, use the external PostgreSQL
 ```
 
 > When using an external PostgreSQL server, you do not need to use an external volume (`-v`) for storing application data.
+
+### Log Output
+
+Log output for the Stoplight processes are available at the paths below:
+
+- `/home/node/log/frontend.log`
+- `/home/node/log/backend.log`
+- `/home/node/log/nginx.log`
+- `/home/node/log/postgres.log`
+
+If you would like the container to send output to stdout instead of a log file, set the `EMIT_STDOUT` environment variable to the value `true`:
+
+```bash
+-e EMIT_STDOUT=true
+```
