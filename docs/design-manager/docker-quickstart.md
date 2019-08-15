@@ -56,7 +56,7 @@ docker pull quay.io/stoplight/platform
 
 To start the Stoplight Platform process you will need the following variables:
 
-- `SL_API_URL`, which is the fully-qualified URL of the Stoplight instance with a `/api` suffix
+- `SL_API_URL`, which is the fully-qualified URL of the Stoplight instance with an `/api` suffix (ie, `http://stoplight.myorg.com/api`)
 
 To start the Stoplight process using `docker run`:
 
@@ -64,11 +64,13 @@ To start the Stoplight process using `docker run`:
 docker run -d --name stoplight-platform \
     -p 8080:8080 \
     -v $(pwd)/stoplight-data:/home/node/postgresql \
-    -e SL_API_URL=http://stoplight.example.com/api \
+    -e SL_API_URL=http://stoplight.example.com/api \    # * update to your hostname/IP
     quay.io/stoplight/platform
 ```
 
 Note:
+
+- The `-v $(pwd)` means the Platform data directory will be stored in the __current local directory__ from where the `docker run` command is being run. You can replace `$(pwd)` with a full path (ie, `/data/stoplight`) if you would like to store data somewhere else on the host system.
 
 - All data used by Stoplight is stored within the PostgreSQL data directory located at `/home/node/postgresql`, so be sure to include the `-v` option referenced above to ensure data is persisted outside the container.
 
