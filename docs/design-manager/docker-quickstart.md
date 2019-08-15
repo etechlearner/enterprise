@@ -63,7 +63,7 @@ To start the Stoplight process using `docker run`:
 ```bash
 docker run -d --rm --name stoplight-platform \
     -p 8080:8080 \
-    -v $(pwd)/stoplight-data:/home/node/postgresql
+    -v $(pwd)/stoplight-data:/home/node/postgresql \
     -e SL_API_URL=https://stoplight.example.com/api \
     quay.io/stoplight/platform
 ```
@@ -88,7 +88,7 @@ This makes the final `docker run` command:
 
 ```bash
 docker run -d --rm --name stoplight-platform \
-    -v $(pwd)/stoplight-data:/home/node/postgresql
+    -v $(pwd)/stoplight-data:/home/node/postgresql \
     -p 8443:8443 \                                                      # * required for SSL
     -e SL_ENABLE_SSL=true \                                             # *
     -e SL_HOSTNAME=certhostname.example.com \                           # *
