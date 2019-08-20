@@ -6,10 +6,10 @@ nav_order: 5
 has_children: true
 ---
 
-# Installation
+# RPM Installation
 
-The Stoplight API Design Manager has two components:
+The Stoplight API Design Manager has two components when installed from RPM:
 
-- The **application**, which serves the Stoplight user-interface
+- The **frontend**, which serves the Stoplight user-interface
 
-- The **API**, which is the backing API for the application, ultimately writing data to the database
+- The **backend**, which is the backing API for the application, ultimately writing data to the database

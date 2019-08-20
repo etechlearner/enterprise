@@ -52,19 +52,19 @@ To verify the image is accessible, run:
 docker pull quay.io/stoplight/platform
 ```
 
-## Running
-
-To start the Stoplight Platform process you will need the following variables:
-
-- `SL_API_URL`, which is the fully-qualified URL of the Stoplight instance with an `/api` suffix (ie, `http://stoplight.myorg.com/api`)
+## Running Locally
 
 To start the Stoplight process using `docker run`:
 
 ```bash
-docker run -d --name stoplight-platform \
+# create local data directory
+mkdir stoplight-data
+chmod -R 777 stoplight-data
+
+# start the service
+docker run --name stoplight-platform \
     -p 8080:8080 \
     -v $(pwd)/stoplight-data:/home/node/postgresql \
-    -e SL_API_URL=http://stoplight.example.com/api \    # * update to your hostname/IP
     quay.io/stoplight/platform
 ```
 
@@ -74,7 +74,28 @@ Note:
 
 - All data used by Stoplight is stored within the PostgreSQL data directory located at `/home/node/postgresql`, so be sure to include the `-v` option referenced above to ensure data is persisted outside the container.
 
-- The master process inside the container runs as the container's `nginx` user, which has a UID of `101`. Make sure that this user has write permissions to the mounted volume (specified with `-v`).
+- The master process inside the container runs as the container's `nginx` user, which has a UID of `101`. Make sure that this user has write permissions to the mounted volume (specified with `-v`). This is handled by the `chmod` command at the start of the snippet above.
+
+## Running Remotely
+
+To start the Stoplight process when running remotely, you will need to follow the instructions [above](#running-locally) as well as set the following variable:
+
+- `SL_API_URL`, which is the fully-qualified URL of the Stoplight instance with an `/api` suffix (ie, `http://stoplight.myorg.com:1234/api`)
+
+To start the Stoplight process using `docker run`:
+
+```bash
+# create local data directory
+mkdir stoplight-data
+chmod -R 777 stoplight-data
+
+# start the service
+docker run -d --name stoplight-platform \
+    -p 8080:8080 \                                      # * if this is updated, update SL_API_URL
+    -v $(pwd)/stoplight-data:/home/node/postgresql \
+    -e SL_API_URL=http://stoplight.myorg.com:8080/api \ # * update to your hostname/IP _and_ port
+    quay.io/stoplight/platform
+```
 
 ### Enabling SSL
 
@@ -91,12 +112,12 @@ This makes the final `docker run` command:
 ```bash
 docker run -d --name stoplight-platform \
     -v $(pwd)/stoplight-data:/home/node/postgresql \
-    -p 8443:8443 \                                                      # * required for SSL
-    -e SL_ENABLE_SSL=true \                                             # *
-    -e SL_HOSTNAME=certhostname.example.com \                           # * update this to your hostname
-    -e SL_API_URL=https://certhostname.example.com/api \
-    -v ./path/to/cert:/etc/nginx/custom-certificates/fullchain.pem \    # *
-    -v ./path/to/key:/etc/nginx/custom-certificates/privkey.pem \       # *
+    -p 8443:8443 \                                                          # * ssl binds to 8443
+    -e SL_ENABLE_SSL=true \                                                 # *
+    -e SL_HOSTNAME=certhostname.example.com \                               # * update this to your hostname
+    -e SL_API_URL=https://certhostname.example.com/api \                    # * include https in URL
+    -v ./path/to/cert.pem:/etc/nginx/custom-certificates/fullchain.pem \    # *
+    -v ./path/to/key.pem:/etc/nginx/custom-certificates/privkey.pem \       # *
     quay.io/stoplight/platform
 ```
 
@@ -134,4 +155,40 @@ If you would like the container to send output to stdout instead of a log file, 
 
 ```bash
 -e EMIT_STDOUT=true
+```
+
+### Disabling IPv6
+
+If you would like to prevent nginx from binding to IPv6 interfaces, set the `DISABLE_IPV6` environment variable to the value `true`:
+
+```bash
+-e DISABLE_IPV6=true
+```
+
+### Accessing Supervisor
+
+If you ever need to access the running [supervisord](http://supervisord.org/) process in order to control running processes within the container, you can do so by running the command:
+
+```bash
+docker exec -it stoplight-platform supervisorctl
+```
+
+By accessing supervisord, you can see the process status, restart services, and more:
+
+```bash
+$ docker exec -it stoplight-platform supervisorctl
+backend                          RUNNING   pid 1470, uptime 1:31:47
+frontend                         RUNNING   pid 1468, uptime 1:31:47
+nginx                            RUNNING   pid 1467, uptime 1:31:47
+postgres                         RUNNING   pid 1469, uptime 1:31:47
+supervisor> restart nginx
+nginx: stopped
+nginx: started
+supervisor>
+```
+
+To disable the `supervisorctl` access, set the `SUPERVISOR_RPC_DISABLED` environment variable to `true`:
+
+```bash
+-e SUPERVISOR_RPC_DISABLED=true
 ```
