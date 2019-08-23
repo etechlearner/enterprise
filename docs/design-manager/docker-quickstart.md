@@ -192,3 +192,35 @@ To disable the `supervisorctl` access, set the `SUPERVISOR_RPC_DISABLED` environ
 ```bash
 -e SUPERVISOR_RPC_DISABLED=true
 ```
+
+### Taking a Backup
+
+To take a backup of the running Stoplight container, use the included `pg_dump` utility to export the PostgreSQL database:
+
+```bash
+docker exec -it stoplight-platform pg_dump stoplight > stoplight-backup.$(date +%Y.%m.%d_%H%M%S).sql
+```
+
+Once the command above completes, you will have a `stoplight-backup.*.sql` file with a timestamp of when the backup was taken that can then be loaded into a new system.
+
+### Restoring from Backup
+
+> **NOTE**, be sure to erase any pre-existing application data before restoring a database backup.
+
+To restore from a backup, you will use the included `pg` utility to import data from a pre-existing SQL backup file:
+
+```bash
+# copy backup into running container, under /tmp/
+docker cp stoplight-backup.sql platform:/tmp/
+
+# stop the backend service (if not already)
+docker exec -it platform supervisorctl stop backend
+
+# restore the backup
+docker exec -it stoplight-platform pg -f /tmp/stoplight-backup.sql stoplight
+
+# start the backend
+docker exec -it platform supervisorctl start backend
+```
+
+Once completed, be sure to use the same `SL_APP_SECRET` from the previous installation to prevent user sessions and secrets from being invalidated.
