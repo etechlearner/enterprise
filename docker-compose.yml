@@ -110,7 +110,7 @@ services:
 
   prism:
     container_name: prism.stoplight.local
-    image: quay.io/stoplight/prism-multi:62f3b81
+    image: quay.io/stoplight/prism-multi:2.0.22
     restart: always
     ports:
       - "4050:4050"
