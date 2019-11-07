@@ -65,7 +65,7 @@ services:
 
   api:
     container_name: api.stoplight.local
-    image: quay.io/stoplight/api:4.10.8
+    image: quay.io/stoplight/api:4.10.9
     restart: always
     depends_on:
       - gitlab
@@ -93,7 +93,7 @@ services:
 
   app:
     container_name: app.stoplight.local
-    image: quay.io/stoplight/app:4.10.9
+    image: quay.io/stoplight/app:4.10.10
     restart: always
     ports:
       - "3100:3100"
@@ -154,7 +154,7 @@ services:
 
   tasker:
     container_name: tasker.stoplight.local
-    image: quay.io/stoplight/tasker:0.2.1-omni
+    image: quay.io/stoplight/tasker:0.2.2-omni
     restart: always
     depends_on:
       - redis
