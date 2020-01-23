@@ -154,7 +154,7 @@ services:
 
   tasker:
     container_name: tasker.stoplight.local
-    image: quay.io/stoplight/tasker:0.2.2-omni
+    image: quay.io/stoplight/tasker:0.3.1-omni
     restart: always
     depends_on:
       - redis
